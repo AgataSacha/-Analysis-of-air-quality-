@@ -45,7 +45,6 @@ def bar_plot_of_aqi_in_cities(city: list[str], aqi: list[int]):
     plt.ylabel("AQI")
     plt.show()
 
-
 def stacked_bar_plot_type_of_pollution(df):
     '''Ta funkcja wyświetla wykres kolumnowy skumulowany porównujący zawartość pm2,5 i pm10 dla poszczególnych miast'''
     fig = px.bar(df, x = "Miasto", y = ["PM2,5 (Pył zawieszony drobny)", "PM10 (Pył zawieszony gruby)"], title="Rodzaje zanieczyszczeń")
@@ -67,7 +66,6 @@ def pie_chart_of_air_composition_in_chosen_city(df, city: str):
         plt.pie(list_of_air_data, labels=names, autopct='%1.1f%%') #autopct wyświetla stosunek procentowy danego składnika
         plt.title(f"Skład powietrza dla miasta {city}")
         plt.show()
-  
 
 def main():
     df = pd.read_csv("jakosc_powietrza.csv") #zczytanie danych z pliku csv

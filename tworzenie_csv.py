@@ -66,6 +66,7 @@ def get_csv(the_data: list[dict], file_name = "jakosc_powietrza.csv"):
     
 def main():
 
+    #token znajduje się w osobnym pliku tekstowym, należy go zczytać
     f = open("moj_token.txt")
     token = f.read()
     f.close()
