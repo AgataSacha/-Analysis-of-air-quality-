@@ -52,11 +52,23 @@ def stacked_bar_plot_type_of_pollution(df):
     fig.update_yaxes(title="Zanieczyszczenie")
     fig.update_layout(legend_title_text="Rodzaje zanieczyszczeń")
     fig.show()
-    
+
+def pie_chart_of_air_composition_in_chosen_city(df, city: str):
+    '''Ta funkcja rysuje wykres kołowy przedstawiający skład powietrza dla wybranego miasta'''
+    chosen_city = df[df["Miasto"]==city]
+    list_of_air_data = []
+    names = ["Dwutlenek azotu", "Ozon", "Dwutlenek siarki", "Tlenek węgla"]
+    for i in names:
+        list_of_air_data.append(chosen_city[i].values[0])
+    plt.pie(list_of_air_data, labels=names, autopct='%1.1f%%')
+    plt.title(f"Skład powietrza dla miasta {city}")
+    plt.show()
+    #air_data_of_chosen_city = chosen_city[["Dwutlenek azotu", "Ozon", "Dwutlenek siarki", "Tlenek węgla"]]
+  
 
 def main():
     df = pd.read_csv("jakosc_powietrza.csv") #zczytanie danych z pliku csv
-    show_city_with_the_biggest_pollution(df)
+    pie_chart_of_air_composition_in_chosen_city(df, "Warszawa")
 
 if __name__ == "__main__":
     main()

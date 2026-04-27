@@ -65,13 +65,13 @@ def get_csv(the_data: list[dict], file_name = "jakosc_powietrza.csv"):
     
     
 def main():
-    
+
     f = open("moj_token.txt")
     token = f.read()
     f.close()
 
     the_data = []
-    cities: list[str] = ["Poznań", "Warszawa", "Kraków", "Warszawa"]
+    cities: list[str] = ["Poznań", "Warszawa", "Kraków"]
     for i in cities:
         data = get_data(i, token)
         if data:
