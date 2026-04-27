@@ -4,11 +4,7 @@ import requests #biblioteka do komunikacji ze stronami internetowymi
 import csv #biblioteka potrzebna do utworzenia pliku csv z pobranymi danymi
 import time 
 
-f = open("moj_token.txt")
-token = f.read()
-f.close()
-
-def get_data (city: str) -> dict:
+def get_data (city: str, token: str) -> dict:
     '''Pobieranie danych ze strony'''
     url = f"https://api.waqi.info/feed/{city}/?token={token}"
     response = requests.get(url, timeout=10, stream=True) #timeout - jeśli uzyskiwanie odpowiedzi potrwa dłużej niż 10 sekund, program wstrzyma swoje działanie
@@ -69,10 +65,15 @@ def get_csv(the_data: list[dict], file_name = "jakosc_powietrza.csv"):
     
     
 def main():
+    
+    f = open("moj_token.txt")
+    token = f.read()
+    f.close()
+
     the_data = []
     cities: list[str] = ["Poznań", "Warszawa", "Kraków", "Warszawa"]
     for i in cities:
-        data = get_data(i)
+        data = get_data(i, token)
         if data:
             row = adjust_data(i, data)
             the_data.append(row)

@@ -6,11 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
 
-
-
-
-df = pd.read_csv("jakosc_powietrza.csv") #zczytanie danych z pliku csv
-
 def convert_data_to_lists(df): #na razie taki zapis
     time_of_measurement = df["Data i godzina pomiaru"].tolist()
     city = df["Miasto"].tolist()
@@ -60,6 +55,7 @@ def stacked_bar_plot_type_of_pollution(df):
     
 
 def main():
+    df = pd.read_csv("jakosc_powietrza.csv") #zczytanie danych z pliku csv
     show_city_with_the_biggest_pollution(df)
 
 if __name__ == "__main__":
