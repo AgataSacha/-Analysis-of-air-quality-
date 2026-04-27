@@ -55,20 +55,23 @@ def stacked_bar_plot_type_of_pollution(df):
 
 def pie_chart_of_air_composition_in_chosen_city(df, city: str):
     '''Ta funkcja rysuje wykres kołowy przedstawiający skład powietrza dla wybranego miasta'''
-    chosen_city = df[df["Miasto"]==city]
+    chosen_city = df[df["Miasto"]==city] #wydzielenie tylko tego wiersza, który dotyczy wybranego miasta
     list_of_air_data = []
     names = ["Dwutlenek azotu", "Ozon", "Dwutlenek siarki", "Tlenek węgla"]
     for i in names:
-        list_of_air_data.append(chosen_city[i].values[0])
-    plt.pie(list_of_air_data, labels=names, autopct='%1.1f%%')
-    plt.title(f"Skład powietrza dla miasta {city}")
-    plt.show()
-    #air_data_of_chosen_city = chosen_city[["Dwutlenek azotu", "Ozon", "Dwutlenek siarki", "Tlenek węgla"]]
+        if not np.isnan(chosen_city[i].values[0]): #np.isnan sprawdza, czy dana wartość istnieje czy nie (is not a number)
+            list_of_air_data.append(chosen_city[i].values[0]) #jeżeli wartość istnieje, to jest dodawana do listy
+    if not list_of_air_data: #sprawdzenie, czy lista z danymi jest pusta, jeśli jest, to wyświetli się poniższy komunikat
+        print("Brak wystarczających danych")
+    else: #jeśli lista zawiera jakieś wartości, to zostaną one wyświetlone na wykresie kołowym
+        plt.pie(list_of_air_data, labels=names, autopct='%1.1f%%') #autopct wyświetla stosunek procentowy danego składnika
+        plt.title(f"Skład powietrza dla miasta {city}")
+        plt.show()
   
 
 def main():
     df = pd.read_csv("jakosc_powietrza.csv") #zczytanie danych z pliku csv
-    pie_chart_of_air_composition_in_chosen_city(df, "Warszawa")
+    pie_chart_of_air_composition_in_chosen_city(df, "Poznań")
 
 if __name__ == "__main__":
     main()
