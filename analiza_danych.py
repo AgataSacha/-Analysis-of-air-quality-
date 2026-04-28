@@ -5,6 +5,7 @@ from tabulate import tabulate
 import numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
+import okno 
 
 df = pd.read_csv("jakosc_powietrza.csv") #zczytanie danych z pliku csv
 
