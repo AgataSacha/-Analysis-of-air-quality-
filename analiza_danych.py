@@ -27,12 +27,12 @@ def convert_data_to_lists(df): #na razie taki zapis
     wind = df["Wiatr"].tolist()
 
 
-def show_table_in_console(df):
+def show_table_in_console(df: pd.DataFrame):
     '''Ta funkcja wyświetla pobrane dane w konsoli w formie tabeli'''
     print(tabulate(df))
 
 
-def show_city_with_the_biggest_pollution(df):
+def show_city_with_the_biggest_pollution(df: pd.DataFrame):
     '''Ta funkcja zwraca miasto o największym zanieczyszczeniu powietrza'''
     max_pollution = df["AQI"].max() #najwyższy poziom zanieczyszczenia
     max_pollution_index = df["AQI"].idxmax() #indeks wiersza, w którym znajduje się najwyższe zanieczyszczenie
@@ -40,7 +40,7 @@ def show_city_with_the_biggest_pollution(df):
     return city_max_pollution
 
 
-def bar_plot_of_aqi_in_cities(df):
+def bar_plot_of_aqi_in_cities(df: pd.DataFrame):
     '''Ta funkcja wyświetla wykres kolumnowy pokazujący ogólny poziom zanieczyszczenia w każdym mieście'''
     city = df["Miasto"].tolist()
     aqi = df["AQI"].tolist()
@@ -51,14 +51,14 @@ def bar_plot_of_aqi_in_cities(df):
     plt.ylabel("AQI")
     return fig
 
-def stacked_bar_plot_type_of_pollution(df):
+def stacked_bar_plot_type_of_pollution(df: pd.DataFrame):
     '''Ta funkcja wyświetla wykres kolumnowy skumulowany porównujący zawartość pm2,5 i pm10 dla poszczególnych miast'''
     fig = px.bar(df, x = "Miasto", y = ["PM2,5 (Pył zawieszony drobny)", "PM10 (Pył zawieszony gruby)"], title="Rodzaje zanieczyszczeń")
     fig.update_yaxes(title="Zanieczyszczenie")
     fig.update_layout(legend_title_text="Rodzaje zanieczyszczeń")
     fig.show()
 
-def pie_chart_of_air_composition_in_chosen_city(df, city: str):
+def pie_chart_of_air_composition_in_chosen_city(df: pd.DataFrame, city: str):
     '''Ta funkcja rysuje wykres kołowy przedstawiający skład powietrza dla wybranego miasta'''
     chosen_city = df[df["Miasto"]==city] #wydzielenie tylko tego wiersza, który dotyczy wybranego miasta
     list_of_air_data = []
@@ -74,7 +74,7 @@ def pie_chart_of_air_composition_in_chosen_city(df, city: str):
         plt.show()
 
 def main():
-    bar_plot_of_aqi_in_cities(df)
+    pie_chart_of_air_composition_in_chosen_city(df, "Warszawa")
 
 
 if __name__ == "__main__":
