@@ -1,5 +1,5 @@
 #W tym pliku znajdują się wszystkie funkcje dotyczące analizy danych, tj. rysowanie wykresów, wyświetlanie tabel itd.
-
+#probny komenatrz
 import pandas as pd
 from tabulate import tabulate
 import numpy as np
@@ -69,7 +69,7 @@ def pie_chart_of_air_composition_in_chosen_city(df, city: str):
 
 def main():
     df = pd.read_csv("jakosc_powietrza.csv") #zczytanie danych z pliku csv
-    pie_chart_of_air_composition_in_chosen_city(df, "Poznań")
+    pie_chart_of_air_composition_in_chosen_city(df, "Warszawa")
 
 if __name__ == "__main__":
     main()
