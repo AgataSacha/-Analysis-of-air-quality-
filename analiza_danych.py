@@ -6,6 +6,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
 
+df = pd.read_csv("jakosc_powietrza.csv") #zczytanie danych z pliku csv
+
 def convert_data_to_lists(df): #na razie taki zapis
     time_of_measurement = df["Data i godzina pomiaru"].tolist()
     city = df["Miasto"].tolist()
@@ -37,13 +39,16 @@ def show_city_with_the_biggest_pollution(df):
     return city_max_pollution
 
 
-def bar_plot_of_aqi_in_cities(city: list[str], aqi: list[int]):
+def bar_plot_of_aqi_in_cities(df):
     '''Ta funkcja wyświetla wykres kolumnowy pokazujący ogólny poziom zanieczyszczenia w każdym mieście'''
+    city = df["Miasto"].tolist()
+    aqi = df["AQI"].tolist()
+    fig, ax = plt.subplots()
     plt.bar(city, aqi)
     plt.title("Ogólny poziom zanieczyszczenia")
     plt.xlabel("Miasto")
     plt.ylabel("AQI")
-    plt.show()
+    return fig
 
 def stacked_bar_plot_type_of_pollution(df):
     '''Ta funkcja wyświetla wykres kolumnowy skumulowany porównujący zawartość pm2,5 i pm10 dla poszczególnych miast'''
@@ -68,8 +73,8 @@ def pie_chart_of_air_composition_in_chosen_city(df, city: str):
         plt.show()
 
 def main():
-    df = pd.read_csv("jakosc_powietrza.csv") #zczytanie danych z pliku csv
-    pie_chart_of_air_composition_in_chosen_city(df, "Warszawa")
+    bar_plot_of_aqi_in_cities(df)
+
 
 if __name__ == "__main__":
     main()
