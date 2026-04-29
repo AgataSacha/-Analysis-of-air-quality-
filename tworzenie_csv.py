@@ -4,6 +4,8 @@ import requests #biblioteka do komunikacji ze stronami internetowymi
 import csv #biblioteka potrzebna do utworzenia pliku csv z pobranymi danymi
 import time 
 
+cities: list[str] = ["Warszawa", "Kraków", "Wrocław", "Łódź", "Poznań", "Gdańsk", "Szczecin", "Lublin", "Bydgoszcz", "Białystok", "Katowice"]
+
 def get_data (city: str, token: str) -> dict:
     '''Pobieranie danych ze strony'''
     url = f"https://api.waqi.info/feed/{city}/?token={token}"
@@ -72,7 +74,6 @@ def main():
     f.close()
 
     the_data = []
-    cities: list[str] = ["Poznań", "Warszawa", "Kraków"]
     for i in cities:
         data = get_data(i, token)
         if data:

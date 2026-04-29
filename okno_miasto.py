@@ -3,6 +3,7 @@ import analiza_danych as ad
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie
 from collections.abc import Callable
 import pandas as pd
+from tworzenie_csv import cities
 
 class ctkAppCity:
     def __init__(self):
@@ -15,7 +16,7 @@ class ctkAppCity:
         self.frame = ctk.CTkFrame(master=self.app, height=680, width=self.app.winfo_width()*0.6, fg_color="black") #pole, w którym będą się wyświetlać wykresy
         self.frame.grid(row=0, column=0, padx=10, pady=10)
 
-        combobox = ctk.CTkComboBox(master=self.app, values=["Warszawa", "Poznań"], command=self.combobox_callback)
+        combobox = ctk.CTkComboBox(master=self.app, values=cities, command=self.combobox_callback)
         combobox.place(relx=0.8, rely=0.1)
         combobox.set("Poznań")
 

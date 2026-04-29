@@ -2,7 +2,6 @@ import customtkinter as ctk
 import okno_porownanie
 import okno_miasto
 
-
 class ctkAppChoice:
     def __init__(self):
         ctk.set_appearance_mode("dark")
@@ -11,9 +10,9 @@ class ctkAppChoice:
         self.app.geometry(self.CenterWindowToDisplay(self.app, 700, 200, self.app._get_window_scaling())) #wymiary i położenie wyświetlanego okna
         self.app.update()
 
-        self.textbox = ctk.CTkTextbox(master=self.app, width=670, height=65, text_color="#99CCFF", font=('Helvetica',19)) #pole tekstowe
+        self.textbox = ctk.CTkTextbox(master=self.app, width=670, height=85, text_color="#99CCFF", font=('Helvetica',19)) #pole tekstowe
         self.textbox.pack(padx=20, pady=20) #położenie pola tekstowego
-        self.textbox.insert("0.0", "Co chcesz zrobić? Porównać poziom zanieczyszczenia dla miast w Polsce, czy wyświetlić dane dla wybranego miasta? Wciśnij odpowiedni przycisk.") #tekst
+        self.textbox.insert("0.0", "Co chcesz zrobić? Porównać poziom zanieczyszczenia dla największych miast w Polsce, czy wyświetlić dane dla jednego z tych miast? Wciśnij odpowiedni przycisk.") #tekst
         self.textbox.tag_config("center", justify="center") #ta linijka i jedna poniżej odpowiadają za wyrównanie tekstu do środka
         self.textbox.tag_add("center", "1.0", "end")
 
