@@ -6,6 +6,7 @@ import customtkinter as ctk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie
 from collections.abc import Callable
+import pandas as pd
 
 class ctkApp:
     def __init__(self):
@@ -14,6 +15,7 @@ class ctkApp:
         self.app.title("Jakość powietrza") #nazwa wyświetlanego okna
         self.app.geometry("1100x700") #wymiary wyświetlanego okna
         self.app.update()
+
         self.frame = ctk.CTkFrame(master=self.app, height=680, width=self.app.winfo_width()*0.6, fg_color="black") #pole, w którym będą się wyświetlać wykresy
         self.frame.grid(row=0, column=0, padx=10, pady=10) 
 
@@ -23,7 +25,7 @@ class ctkApp:
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
         self.app.mainloop() 
 
-    def choose_plot(self, plot_func: Callable): #ta funkcja przyjmuje za argument funkcję
+    def choose_plot(self, plot_func: Callable[[pd.DataFrame], None]): #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame, ale nic nie zwraca, dlatego None
         '''Wywołanie odpowiedniej funkcji rysującej wykres, a następnie wywołanie funkcji, która go wyświetli'''
         fig = plot_func(ad.df)
         self.show_plot(fig)
@@ -32,8 +34,7 @@ class ctkApp:
         '''Wyświetlanie w oknie wybranego wykresu'''
         canvas = FigureCanvasTkAgg(fig, master=self.frame)
         canvas.draw()
-        canvas.get_tk_widget().place(relx=0, rely=0)
-        self.app.update()
+        canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
 
     def on_closing(self):
         self.app.quit() #zakończenie pętli mainloop
