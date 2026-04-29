@@ -8,7 +8,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dziÄ
 from collections.abc import Callable
 import pandas as pd
 
-class ctkApp:
+class ctkAppCompare:
     def __init__(self):
         ctk.set_appearance_mode("dark") #ciemny tryb wyÅ›wietlanego okna
         self.app = ctk.CTk() 
@@ -45,4 +45,4 @@ class ctkApp:
         self.app.destroy() #zniszczenie okna
 
 if __name__ == "__main__":        
-    CTK_Window = ctkApp()
+    CTK_Window = ctkAppCompare()
