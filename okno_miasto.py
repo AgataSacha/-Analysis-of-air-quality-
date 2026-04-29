@@ -26,10 +26,12 @@ class ctkAppCity:
         self.app.mainloop() 
 
     def on_closing(self):
+        '''Zakończenie pracy okna'''
         self.app.quit() #zakończenie pętli mainloop
         self.app.destroy() #zniszczenie okna
 
     def combobox_callback(self, chosen_city):
+        '''Przypisanie zmiennej miasta wybranego z listy rozwijalnej'''
         self.city = chosen_city
 
     def choose_plot(self, plot_func: Callable[[pd.DataFrame, str], None]): #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame oraz str (czyli nazwę miasta), ale nic nie zwraca, dlatego None

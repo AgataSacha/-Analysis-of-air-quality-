@@ -27,20 +27,24 @@ class ctkAppChoice:
         self.app.mainloop() 
 
     def on_closing(self):
+        '''Zakończenie pracy okna'''
         self.app.quit() #zakończenie pętli mainloop
         self.app.destroy() #zniszczenie okna
 
     def show_comparing_window(self):
+        '''Wyświetlenie okna, w którym można porównać różne miasta w Polsce'''
         self.on_closing() #po wciśnięciu przycisku zostanie uruchomiona funkcja, która zamknie okno
         CTK_Window = okno_porownanie.ctkAppCompare()
 
     def show_city_window(self):
+        '''Wyświetlenie okna, w którym można wyświetlić dane dla wybranego miasta w Polsce'''
         self.on_closing()
         CTk_Window = okno_miasto.ctkAppCity()
 
-    def CenterWindowToDisplay(self, Screen: ctk.CTk, width: int, height: int, scale_factor: float = 1.0):
-        screen_width = Screen.winfo_screenwidth()
-        screen_height = Screen.winfo_screenheight()
+    def CenterWindowToDisplay(self, Screen: ctk.CTk, width: int, height: int, scale_factor: float=1.0):
+        '''Wyśrodkowanie na ekranie wyświetlanego okna'''
+        screen_width = Screen.winfo_screenwidth() #szerokość ekranu w pikselach
+        screen_height = Screen.winfo_screenheight() #wysokość ekranu w pikselach
         x = int(((screen_width/2) - (width/2)) * scale_factor)
         y = int(((screen_height/2) - (height/1.5)) * scale_factor)
         return f"{width}x{height}+{x}+{y}"

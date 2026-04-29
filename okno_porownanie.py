@@ -41,6 +41,7 @@ class ctkAppCompare:
         canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
 
     def on_closing(self):
+        '''Zakończenie pracy okna'''
         self.app.quit() #zakończenie pętli mainloop
         self.app.destroy() #zniszczenie okna
 
