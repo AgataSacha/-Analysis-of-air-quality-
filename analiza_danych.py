@@ -74,7 +74,7 @@ def pie_chart_of_air_composition_in_chosen_city(df: pd.DataFrame, city: str):
         plt.show()
 
 def main():
-    pie_chart_of_air_composition_in_chosen_city(df, "Warszawa")
+    stacked_bar_plot_type_of_pollution(df)
 
 
 if __name__ == "__main__":
