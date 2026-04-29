@@ -3,7 +3,7 @@
 
 import analiza_danych as ad
 import customtkinter as ctk
-import matplotlib.pyplot as plt
+import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie
 from collections.abc import Callable
 import pandas as pd
@@ -29,7 +29,7 @@ class ctkAppCompare:
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
         self.app.mainloop() 
 
-    def choose_plot(self, plot_func: Callable[[pd.DataFrame], None]): #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame, ale nic nie zwraca, dlatego None
+    def choose_plot(self, plot_func: Callable[[pd.DataFrame], matplotlib.figure.Figure]): #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame i zwraca wykres matplotlib
         '''Wywołanie odpowiedniej funkcji rysującej wykres, a następnie wywołanie funkcji, która go wyświetli'''
         fig = plot_func(ad.df)
         self.show_plot(fig)

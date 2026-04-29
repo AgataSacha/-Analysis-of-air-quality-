@@ -3,6 +3,7 @@
 import pandas as pd
 from tabulate import tabulate
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 import plotly.express as px
 import okno_porownanie
@@ -32,15 +33,15 @@ def show_table_in_console(df: pd.DataFrame):
     print(tabulate(df))
 
 
-def show_city_with_the_biggest_pollution(df: pd.DataFrame):
+def show_city_with_the_biggest_pollution(df: pd.DataFrame) -> tuple[str, float]:
     '''Ta funkcja zwraca miasto o największym zanieczyszczeniu powietrza'''
     max_pollution = df["AQI"].max() #najwyższy poziom zanieczyszczenia
     max_pollution_index = df["AQI"].idxmax() #indeks wiersza, w którym znajduje się najwyższe zanieczyszczenie
     city_max_pollution = df.iloc[max_pollution_index, 1] #miasto, w którym  jest największe zanieczyszczenie, gdzie: iloc[wiersz, kolumna]
-    return city_max_pollution
+    return (city_max_pollution, max_pollution)
 
 
-def bar_plot_of_aqi_in_cities(df: pd.DataFrame):
+def bar_plot_of_aqi_in_cities(df: pd.DataFrame) -> matplotlib.figure.Figure:
     '''Ta funkcja wyświetla wykres kolumnowy pokazujący ogólny poziom zanieczyszczenia w każdym mieście'''
     city = df["Miasto"].tolist()
     aqi = df["AQI"].tolist()
@@ -58,7 +59,7 @@ def stacked_bar_plot_type_of_pollution(df: pd.DataFrame):
     fig.update_layout(legend_title_text="Rodzaje zanieczyszczeń")
     fig.show()
 
-def pie_chart_of_air_composition_in_chosen_city(df: pd.DataFrame, city: str):
+def pie_chart_of_air_composition_in_chosen_city(df: pd.DataFrame, city: str) -> matplotlib.figure.Figure:
     '''Ta funkcja rysuje wykres kołowy przedstawiający skład powietrza dla wybranego miasta'''
     chosen_city = df[df["Miasto"]==city] #wydzielenie tylko tego wiersza, który dotyczy wybranego miasta
     list_of_air_data = []
@@ -66,15 +67,17 @@ def pie_chart_of_air_composition_in_chosen_city(df: pd.DataFrame, city: str):
     for i in names:
         if not np.isnan(chosen_city[i].values[0]): #np.isnan sprawdza, czy dana wartość istnieje czy nie (is not a number)
             list_of_air_data.append(chosen_city[i].values[0]) #jeżeli wartość istnieje, to jest dodawana do listy
-    if not list_of_air_data: #sprawdzenie, czy lista z danymi jest pusta, jeśli jest, to wyświetli się poniższy komunikat
+    if not len(list_of_air_data)==4: #sprawdzenie, czy lista zawiera wszystkie elementy, jeśli nie, to wyświetli się poniższy komunikat
         print("Brak wystarczających danych")
-    else: #jeśli lista zawiera jakieś wartości, to zostaną one wyświetlone na wykresie kołowym
+    else: #jeśli lista zawiera 4 wartości, to zostaną one wyświetlone na wykresie kołowym
+        fig, ax = plt.subplots()
         plt.pie(list_of_air_data, labels=names, autopct='%1.1f%%') #autopct wyświetla stosunek procentowy danego składnika
         plt.title(f"Skład powietrza dla miasta {city}")
-        plt.show()
+        print(type(fig))
+        return fig
 
 def main():
-    stacked_bar_plot_type_of_pollution(df)
+    pie_chart_of_air_composition_in_chosen_city(df, "Warszawa")
 
 
 if __name__ == "__main__":

@@ -35,7 +35,7 @@ class ctkAppCity:
         '''Przypisanie zmiennej miasta wybranego z listy rozwijalnej'''
         self.city = chosen_city
 
-    def choose_plot(self, plot_func: Callable[[pd.DataFrame, str], None]): #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame oraz str (czyli nazwę miasta), ale nic nie zwraca, dlatego None
+    def choose_plot(self, plot_func: Callable[[pd.DataFrame, str], None]): #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame oraz str (czyli nazwę miasta)
         '''Wywołanie odpowiedniej funkcji rysującej wykres, a następnie wywołanie funkcji, która go wyświetli'''
         fig = plot_func(ad.df, self.city)
         self.show_plot(fig)
