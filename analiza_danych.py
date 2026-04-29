@@ -6,7 +6,6 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import plotly.express as px
-import okno_porownanie
 
 df = pd.read_csv("jakosc_powietrza.csv") #zczytanie danych z pliku csv
 
@@ -73,7 +72,6 @@ def pie_chart_of_air_composition_in_chosen_city(df: pd.DataFrame, city: str) -> 
         fig, ax = plt.subplots()
         plt.pie(list_of_air_data, labels=names, autopct='%1.1f%%') #autopct wyświetla stosunek procentowy danego składnika
         plt.title(f"Skład powietrza dla miasta {city}")
-        print(type(fig))
         return fig
 
 def main():
