@@ -8,7 +8,7 @@ class ctkAppChoice:
         ctk.set_appearance_mode("dark")
         self.app = ctk.CTk() 
         self.app.title("Jakość powietrza") #nazwa wyświetlanego okna
-        self.app.geometry("700x200") #wymiary wyświetlanego okna
+        self.app.geometry(self.CenterWindowToDisplay(self.app, 700, 200, self.app._get_window_scaling())) #wymiary i położenie wyświetlanego okna
         self.app.update()
 
         self.textbox = ctk.CTkTextbox(master=self.app, width=670, height=65, text_color="#99CCFF", font=('Helvetica',19)) #pole tekstowe
@@ -37,6 +37,13 @@ class ctkAppChoice:
     def show_city_window(self):
         self.on_closing()
         CTk_Window = okno_miasto.ctkAppCity()
+
+    def CenterWindowToDisplay(self, Screen: ctk.CTk, width: int, height: int, scale_factor: float = 1.0):
+        screen_width = Screen.winfo_screenwidth()
+        screen_height = Screen.winfo_screenheight()
+        x = int(((screen_width/2) - (width/2)) * scale_factor)
+        y = int(((screen_height/2) - (height/1.5)) * scale_factor)
+        return f"{width}x{height}+{x}+{y}"
 
 if __name__ == "__main__":        
     CTK_Window = ctkAppChoice()
