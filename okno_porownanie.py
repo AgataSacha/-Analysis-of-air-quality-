@@ -7,6 +7,7 @@ import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie
 from collections.abc import Callable
 import pandas as pd
+import tkinter.ttk as ttk
 
 class ctkAppCompare:
     def __init__(self):
@@ -18,6 +19,7 @@ class ctkAppCompare:
 
         self.frame = ctk.CTkFrame(master=self.app, height=680, width=self.app.winfo_width()*0.6, fg_color="black") #pole, w którym będą się wyświetlać wykresy
         self.frame.grid(row=0, column=0, padx=10, pady=10) 
+        self.frame.grid_propagate(False) #frame nie będzie dopasowywał swojego rozmiaru do zawartości
 
         self.button_aqi_in_cities = ctk.CTkButton(master=self.app, text="Wyświetl wykres porównujący AQI", command=lambda: self.choose_plot(ad.bar_plot_of_aqi_in_cities)) #musi być lambda, bo inaczej funkcja wywoła się od razu, a nie dopiero po kliknięciu przycisku (dlatego, że self.choose_plot() wymaga argumentu, gdyby było samo choose_plot, to nie byłoby problemu)
         self.button_aqi_in_cities.place(relx=0.79, rely=0.2) #położenie przycisku względem frame
@@ -25,6 +27,9 @@ class ctkAppCompare:
         self.button_typ_of_pollution = ctk.CTkButton(master=self.app, text="Wyświetl wykres porównujący rodzaj i poziom zanieczyszczenia", command=lambda: self.choose_plot(ad.stacked_bar_plot_type_of_pollution))
         self.button_typ_of_pollution.place(relx=0.79, rely=0.3)
         self.button_typ_of_pollution._text_label.configure(wraplength=250) #zawijanie tekstu na przycisku
+
+        self.button_table = ctk.CTkButton(master=self.app, text="Wyświetl tabelę ze wszystkimi danymi", command=self.show_table)
+        self.button_table.place(relx=0.79, rely=0.4)
 
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
         self.app.mainloop() 
@@ -34,11 +39,27 @@ class ctkAppCompare:
         fig = plot_func(ad.df)
         self.show_plot(fig)
 
-    def show_plot(self, fig):
+    def show_plot(self, fig: matplotlib.figure.Figure):
         '''Wyświetlanie w oknie wybranego wykresu'''
         canvas = FigureCanvasTkAgg(fig, master=self.frame)
         canvas.draw()
         canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
+
+    def show_table(self):
+        '''Wyświetlanie tabeli z danymi z pandas DataFrame'''
+        tree = ttk.Treeview(self.frame, columns=list(ad.df.columns), show="headings")
+        for col in ad.df.columns:
+            tree.heading(col, text=col) #nazwy kolumn
+        for _, row in ad.df.iterrows(): #iterowanie po elementach dataframe'u
+            tree.insert("", "end", values=list(row)) #dodawanie wartości do komórek
+        scrollbar_x = ttk.Scrollbar(self.frame, orient="horizontal", command=tree.xview) #poziomy pasek przewijania
+        tree.configure(xscrollcommand=scrollbar_x.set)
+        tree.grid(row=0, column=0, sticky="nsew") #umieszczenie tabeli w siatce frame'u
+        scrollbar_x.grid(row=1, column=0, sticky="ew") #dodanie widoku paska przesuwania
+        self.frame.grid_rowconfigure(0, weight=1) #dzięki tej i następnej linii tkinter wie, że tabela ma zająć całego frame'a
+        self.frame.grid_columnconfigure(0, weight=1)
+
+
 
     def on_closing(self):
         '''Zakończenie pracy okna'''

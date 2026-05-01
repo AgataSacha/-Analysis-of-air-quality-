@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 
 df = pd.read_csv("jakosc_powietrza.csv") #zczytanie danych z pliku csv
+df = df.dropna(axis=1, how='all') #usunięcie kolumn, w których nie ma żadnych danych
 
 def pie_chart_of_air_composition_in_chosen_city(df: pd.DataFrame, city: str) -> matplotlib.figure.Figure:
     '''Ta funkcja rysuje wykres kołowy przedstawiający skład powietrza dla wybranego miasta'''
