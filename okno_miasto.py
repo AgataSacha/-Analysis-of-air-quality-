@@ -1,5 +1,5 @@
 import customtkinter as ctk
-import analiza_danych as ad
+import analiza_danych_miasto as ad
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie
 from collections.abc import Callable
 import pandas as pd

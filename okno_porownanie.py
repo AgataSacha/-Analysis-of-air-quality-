@@ -1,7 +1,7 @@
 #W tym pliku znajdują się wszystkie funkcje odpowiadające za wyświetlanie okienka za pomocą biblioteki customtkinter
 # CAŁY KOD TUTAJ JEST PRÓBNY, TO TRZEBA PRZEROBIĆ
 
-import analiza_danych as ad
+import analiza_danych_porownanie as ad
 import customtkinter as ctk
 import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie
