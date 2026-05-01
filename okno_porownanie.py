@@ -21,15 +21,16 @@ class ctkAppCompare:
         self.frame.grid(row=0, column=0, padx=10, pady=10) 
         self.frame.grid_propagate(False) #frame nie będzie dopasowywał swojego rozmiaru do zawartości
 
-        self.button_aqi_in_cities = ctk.CTkButton(master=self.app, text="Wyświetl wykres porównujący AQI", command=lambda: self.choose_plot(ad.bar_plot_of_aqi_in_cities)) #musi być lambda, bo inaczej funkcja wywoła się od razu, a nie dopiero po kliknięciu przycisku (dlatego, że self.choose_plot() wymaga argumentu, gdyby było samo choose_plot, to nie byłoby problemu)
+        self.button_aqi_in_cities = ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres porównujący AQI", command=lambda: self.choose_plot(ad.bar_plot_of_aqi_in_cities)) #musi być lambda, bo inaczej funkcja wywoła się od razu, a nie dopiero po kliknięciu przycisku (dlatego, że self.choose_plot() wymaga argumentu, gdyby było samo choose_plot, to nie byłoby problemu)
         self.button_aqi_in_cities.place(relx=0.79, rely=0.2) #położenie przycisku względem frame
 
-        self.button_typ_of_pollution = ctk.CTkButton(master=self.app, text="Wyświetl wykres porównujący rodzaj i poziom zanieczyszczenia", command=lambda: self.choose_plot(ad.stacked_bar_plot_type_of_pollution))
+        self.button_typ_of_pollution = ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres porównujący rodzaj i poziom zanieczyszczenia", command=lambda: self.choose_plot(ad.stacked_bar_plot_type_of_pollution))
         self.button_typ_of_pollution.place(relx=0.79, rely=0.3)
-        self.button_typ_of_pollution._text_label.configure(wraplength=250) #zawijanie tekstu na przycisku
+        self.button_typ_of_pollution._text_label.configure(wraplength=210) #zawijanie tekstu na przycisku
 
-        self.button_table = ctk.CTkButton(master=self.app, text="Wyświetl tabelę ze wszystkimi danymi", command=self.show_table)
+        self.button_table = ctk.CTkButton(master=self.app, width=210, text="Wyświetl tabelę ze wszystkimi danymi", command=self.show_table)
         self.button_table.place(relx=0.79, rely=0.4)
+        self.button_table._text_label.configure(wraplength=210)
 
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
         self.app.mainloop() 
