@@ -41,6 +41,13 @@ class ctkAppCity:
         fig = plot_func(ad.df, self.city)
         self.show_plot(fig)
 
+    def not_enough_data(self):
+        self.textbox = ctk.CTkTextbox(master=self.frame, width=636, height=85, text_color="#99CCFF", font=('Helvetica',19)) #pole tekstowe
+        self.textbox.pack(padx=20, pady=20) #położenie pola tekstowego
+        self.textbox.insert("0.0", "Brak wystarczających danych.") #tekst
+        self.textbox.tag_config("center", justify="center") #ta linijka i jedna poniżej odpowiadają za wyrównanie tekstu do środka
+        self.textbox.tag_add("center", "1.0", "end")
+
     def show_plot(self, fig):
         '''Wyświetlanie w oknie wybranego wykresu'''
         canvas = FigureCanvasTkAgg(fig, master=self.frame)

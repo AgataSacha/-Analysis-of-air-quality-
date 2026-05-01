@@ -51,12 +51,26 @@ def bar_plot_of_aqi_in_cities(df: pd.DataFrame) -> matplotlib.figure.Figure:
     plt.ylabel("AQI")
     return fig
 
-def stacked_bar_plot_type_of_pollution(df: pd.DataFrame):
+
+def stacked_bar_plot_type_of_pollution(df: pd.DataFrame) -> matplotlib.figure.Figure:
     '''Ta funkcja wyświetla wykres kolumnowy skumulowany porównujący zawartość pm2,5 i pm10 dla poszczególnych miast'''
-    fig = px.bar(df, x = "Miasto", y = ["PM2,5 (Pył zawieszony drobny)", "PM10 (Pył zawieszony gruby)"], title="Rodzaje zanieczyszczeń")
-    fig.update_yaxes(title="Zanieczyszczenie")
-    fig.update_layout(legend_title_text="Rodzaje zanieczyszczeń")
-    fig.show()
+    cities = df["Miasto"].tolist() #konwersja kolumny do listy
+    pm25 = df["PM2,5 (Pył zawieszony drobny)"].tolist()
+    pm10 = df["PM10 (Pył zawieszony gruby)"].tolist()
+    x = np.arange(len(cities)) #lista, której długość jest równa liczbie miast
+    width = 0.5
+    fig, ax = plt.subplots()
+    ax.bar(x, pm25, width, label="PM2,5 (Pył zawieszony drobny)")
+    ax.bar(x, pm10, width, bottom=pm25, label="PM10 (Pył zawieszony gruby)")
+    ax.set_title("Rodzaje zanieczyszczeń")
+    ax.set_xlabel("Miasto")
+    ax.set_ylabel("Zanieczyszczenie")
+    ax.set_xticks(x) #znaczniki będą pod każdym słupkiem
+    ax.set_xticklabels(cities, rotation=45, ha="right") #podpisy znaczników mają być nazwami miast
+    ax.legend(title="Rodzaje zanieczyszczeń")
+    fig.tight_layout() #automatyczne dopasowanie wszystkich elementów (w tym podpisów, żeby nie nachodziły na siebie)
+    return fig
+
 
 def pie_chart_of_air_composition_in_chosen_city(df: pd.DataFrame, city: str) -> matplotlib.figure.Figure:
     '''Ta funkcja rysuje wykres kołowy przedstawiający skład powietrza dla wybranego miasta'''
@@ -75,7 +89,7 @@ def pie_chart_of_air_composition_in_chosen_city(df: pd.DataFrame, city: str) -> 
         return fig
 
 def main():
-    pie_chart_of_air_composition_in_chosen_city(df, "Warszawa")
+    stacked_bar_plot_type_of_pollution(df)
 
 
 if __name__ == "__main__":

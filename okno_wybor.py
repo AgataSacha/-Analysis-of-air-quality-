@@ -10,7 +10,7 @@ class ctkAppChoice:
         self.app.geometry(self.CenterWindowToDisplay(self.app, 700, 200, self.app._get_window_scaling())) #wymiary i położenie wyświetlanego okna
         self.app.update()
 
-        self.textbox = ctk.CTkTextbox(master=self.app, width=670, height=85, text_color="#99CCFF", font=('Helvetica',19)) #pole tekstowe
+        self.textbox = ctk.CTkTextbox(master=self.app, width=636, height=85, text_color="#99CCFF", font=('Helvetica',19)) #pole tekstowe
         self.textbox.pack(padx=20, pady=20) #położenie pola tekstowego
         self.textbox.insert("0.0", "Co chcesz zrobić? Porównać poziom zanieczyszczenia dla największych miast w Polsce, czy wyświetlić dane dla jednego z tych miast? Wciśnij odpowiedni przycisk.") #tekst
         self.textbox.tag_config("center", justify="center") #ta linijka i jedna poniżej odpowiadają za wyrównanie tekstu do środka
