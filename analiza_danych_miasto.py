@@ -13,21 +13,23 @@ def pie_chart_of_air_composition_in_chosen_city(df: pd.DataFrame, city: str) -> 
     chosen_city = df[df["Miasto"]==city] #wydzielenie tylko tego wiersza, który dotyczy wybranego miasta
     list_of_air_data = []
     names = ["Dwutlenek azotu", "Ozon", "Dwutlenek siarki", "Tlenek węgla"]
+    names_to_use = []
     for i in names:
         if not np.isnan(chosen_city[i].values[0]): #np.isnan sprawdza, czy dana wartość istnieje czy nie (is not a number)
             list_of_air_data.append(chosen_city[i].values[0]) #jeżeli wartość istnieje, to jest dodawana do listy
-    if not len(list_of_air_data)==4: #sprawdzenie, czy lista zawiera wszystkie elementy, jeśli nie, to wyświetli się poniższy komunikat
+            names_to_use.append(i) #jeżeli dana wartość jest dostępna, to jej nazwa musi pojawić się na wykresie, więc ta nazwa jest dodawana do listy nazw
+    if not list_of_air_data: #sprawdzenie, czy lista zawiera jakieś elementy, jeśli nie, to wyświetli się poniższy komunikat
         print("Brak wystarczających danych")
-    else: #jeśli lista zawiera 4 wartości, to zostaną one wyświetlone na wykresie kołowym
+    else: #jeśli lista zawiera jakieś wartości, to wyświetli się wykres kołowy
         fig, ax = plt.subplots()
-        plt.pie(list_of_air_data, labels=names, autopct='%1.1f%%') #autopct wyświetla stosunek procentowy danego składnika
+        plt.pie(list_of_air_data, labels=names_to_use, autopct='%1.1f%%') #autopct wyświetla stosunek procentowy danego składnika
         plt.title(f"Skład powietrza dla miasta {city}")
         return fig
 
 
 
 def main():
-    pass
+    pie_chart_of_air_composition_in_chosen_city(df, "Warszawa")
 
 
 if __name__ == "__main__":

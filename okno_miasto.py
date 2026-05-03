@@ -20,9 +20,11 @@ class ctkAppCity:
         combobox.place(relx=0.8, rely=0.1)
         combobox.set("Poznań")
 
-        self.button_air_composition = ctk.CTkButton(master=self.app, text="Wyświetl wykres kołowy przedstawiający skład powietrza", command=lambda: self.choose_plot(ad.pie_chart_of_air_composition_in_chosen_city))
-        self.button_air_composition.place(relx=0.8, rely=0.7)
-        self.button_air_composition._text_label.configure(wraplength=250) #zawijanie tekstu na przycisku
+        self.button_air_composition = ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres kołowy przedstawiający skład powietrza", command=lambda: self.choose_plot(ad.pie_chart_of_air_composition_in_chosen_city))
+        self.button_air_composition.place(relx=0.79, rely=0.4)
+        self.button_air_composition._text_label.configure(wraplength=210) #zawijanie tekstu na przycisku
+
+
 
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
         self.app.mainloop() 
