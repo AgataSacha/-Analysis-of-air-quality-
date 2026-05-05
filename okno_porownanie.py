@@ -32,6 +32,10 @@ class ctkAppCompare:
         self.button_table.place(relx=0.79, rely=0.4)
         self.button_table._text_label.configure(wraplength=210)
 
+        self.button_table = ctk.CTkButton(master=self.app, width=210, text="Wyświetl miasto o największym zanieczyszczeniu", command=lambda:self.show_city_with_biggest_pollution(ad.show_city_with_the_biggest_pollution))
+        self.button_table.place(relx=0.79, rely=0.5)
+        self.button_table._text_label.configure(wraplength=210)
+
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
         self.app.mainloop() 
 
@@ -59,6 +63,16 @@ class ctkAppCompare:
         scrollbar_x.grid(row=1, column=0, sticky="ew") #dodanie widoku paska przesuwania
         self.frame.grid_rowconfigure(0, weight=1) #dzięki tej i następnej linii tkinter wie, że tabela ma zająć całego frame'a
         self.frame.grid_columnconfigure(0, weight=1)
+
+
+    def show_city_with_biggest_pollution(self, text_func: Callable[[pd.DataFrame], tuple[str, float]]) -> None:
+        '''Wyświetlenie nazwy miasta o najgorszej jakości powietrza wraz z wartością'''
+        city_biggest_poll, biggest_poll = text_func(ad.df)
+        self.textbox = ctk.CTkTextbox(master=self.frame, height=680, width=self.app.winfo_width()*0.6, text_color="#99CCFF", font=('Helvetica',19)) #pole tekstowe
+        self.textbox.place(relx=0.5, rely=0.5, anchor="center")  #wyśrodkowanie w frame, musi być place a nie pack, bo pack ignoruje rozmiar frame'a ustawiony poprzez propagate(False)
+        self.textbox.insert("0.0", f"Największe zanieczyszczenie jest w mieście {city_biggest_poll}. \nIndeks jakości powietrza wynosi tam {biggest_poll}.") #tekst
+        self.textbox.tag_config("center", justify="center") #ta linijka i jedna poniżej odpowiadają za wyrównanie tekstu do środka
+        self.textbox.tag_add("center", "1.0", "end")
 
 
     def on_closing(self) -> None:
