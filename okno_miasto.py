@@ -25,8 +25,6 @@ class ctkAppCity:
         self.button_air_composition.place(relx=0.79, rely=0.4)
         self.button_air_composition._text_label.configure(wraplength=210) #zawijanie tekstu na przycisku
 
-
-
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
         self.app.mainloop() 
 
@@ -42,16 +40,17 @@ class ctkAppCity:
     def choose_plot(self, plot_func: Callable[[pd.DataFrame, str], None]): #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame oraz str (czyli nazwę miasta)
         '''Wywołanie odpowiedniej funkcji rysującej wykres, a następnie wywołanie funkcji, która go wyświetli'''
         fig = plot_func(ad.df, self.city)
-        if fig is None:
-            self.not_enough_data()
+        if fig is None: #jeśli jest za mało danych, to funkcja pie_chart_of_air_composition_in_chosen_city zwraca None
+            self.not_enough_data() #wówczas wyświetli się textbox informujący o za wiewystarczającej liczbie danych
         else:
-            self.show_plot(fig)
+            self.show_plot(fig) #jeśli są wszystkie dane, to zostanie wyświetlony wykres
     
 
     def not_enough_data(self):
-        self.textbox = ctk.CTkTextbox(master=self.frame, width=636, height=85, text_color="#99CCFF", font=('Helvetica',19)) #pole tekstowe
-        self.textbox.pack(padx=20, pady=20) #położenie pola tekstowego
-        self.textbox.insert("0.0", "Brak wystarczających danych.") #tekst
+        '''Jeśli nie ma wystarczająco danych, w oknie wyświetli się komunikat'''
+        self.textbox = ctk.CTkTextbox(master=self.frame, height=680, width=self.app.winfo_width()*0.6, text_color="#99CCFF", font=('Helvetica',19)) #pole tekstowe
+        self.textbox.place(relx=0.5, rely=0.5, anchor="center")  #wyśrodkowanie w frame, musi być place a nie pack, bo pack ignoruje rozmiar frame'a ustawiony poprzez propagate(False)
+        self.textbox.insert("0.0", "Brak wystarczających danych") #tekst
         self.textbox.tag_config("center", justify="center") #ta linijka i jedna poniżej odpowiadają za wyrównanie tekstu do środka
         self.textbox.tag_add("center", "1.0", "end")
 
