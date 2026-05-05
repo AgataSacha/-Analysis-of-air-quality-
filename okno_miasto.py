@@ -17,9 +17,9 @@ class ctkAppCity:
         self.frame.grid(row=0, column=0, padx=10, pady=10)
         self.frame.grid_propagate(False) #frame nie będzie dopasowywał swojego rozmiaru do zawartości
 
-        combobox = ctk.CTkComboBox(master=self.app, values=cities, command=self.combobox_callback)
-        combobox.place(relx=0.8, rely=0.1)
-        combobox.set("Poznań")
+        combobox = ctk.CTkComboBox(master=self.app, values=cities, command=self.combobox_callback) #lista rozwijalna z nazwami miast
+        combobox.place(relx=0.8, rely=0.1) #położenie listy rozwijalnej
+        combobox.set("Wybierz miasto") #ustawienie tekstu, który będzie się wyświetlał, zanim z listy rozwijalnej zostanie wybrane miasto
 
         self.button_air_composition = ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres kołowy przedstawiający skład powietrza", command=lambda: self.choose_plot(ad.pie_chart_of_air_composition_in_chosen_city))
         self.button_air_composition.place(relx=0.79, rely=0.4)

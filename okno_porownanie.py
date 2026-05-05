@@ -5,7 +5,7 @@ import analiza_danych_porownanie as ad
 import customtkinter as ctk
 import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie
-from collections.abc import Callable
+from collections.abc import Callable #biblioteka do obsługi abstrakcyjnych klas bazowych (została wykorzystana do type hintów)
 import pandas as pd
 import tkinter.ttk as ttk
 
@@ -18,7 +18,7 @@ class ctkAppCompare:
         self.app.update()
 
         self.frame = ctk.CTkFrame(master=self.app, height=680, width=self.app.winfo_width()*0.6, fg_color="black") #pole, w którym będą się wyświetlać wykresy
-        self.frame.grid(row=0, column=0, padx=10, pady=10) 
+        self.frame.grid(row=0, column=0, padx=10, pady=10) #bez tego frame się nie wyświetli
         self.frame.grid_propagate(False) #frame nie będzie dopasowywał swojego rozmiaru do zawartości
 
         self.button_aqi_in_cities = ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres porównujący AQI", command=lambda: self.choose_plot(ad.bar_plot_of_aqi_in_cities)) #musi być lambda, bo inaczej funkcja wywoła się od razu, a nie dopiero po kliknięciu przycisku (dlatego, że self.choose_plot() wymaga argumentu, gdyby było samo choose_plot, to nie byłoby problemu)
@@ -44,11 +44,12 @@ class ctkAppCompare:
         fig = plot_func(ad.df)
         self.show_plot(fig)
 
-    def show_plot(self, fig: matplotlib.figure.Figure) -> None:
+    def show_plot(self, fig: matplotlib.figure.Figure) -> None: #funkcja przyjmuje wykres jako argument
         '''Wyświetlanie w oknie wybranego wykresu'''
         canvas = FigureCanvasTkAgg(fig, master=self.frame)
         canvas.draw()
         canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
+
 
     def show_table(self) -> None:
         '''Wyświetlanie tabeli z danymi z pandas DataFrame'''
@@ -65,7 +66,7 @@ class ctkAppCompare:
         self.frame.grid_columnconfigure(0, weight=1)
 
 
-    def show_city_with_biggest_pollution(self, text_func: Callable[[pd.DataFrame], tuple[str, float]]) -> None:
+    def show_city_with_biggest_pollution(self, text_func: Callable[[pd.DataFrame], tuple[str, float]]) -> None: #argumentem funkcji jest inna funkcja, która zwraca krotkę
         '''Wyświetlenie nazwy miasta o najgorszej jakości powietrza wraz z wartością'''
         city_biggest_poll, biggest_poll = text_func(ad.df)
         self.textbox = ctk.CTkTextbox(master=self.frame, height=680, width=self.app.winfo_width()*0.6, text_color="#99CCFF", font=('Helvetica',19)) #pole tekstowe

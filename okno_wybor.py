@@ -16,7 +16,7 @@ class ctkAppChoice:
         self.textbox.tag_config("center", justify="center") #ta linijka i jedna poniżej odpowiadają za wyrównanie tekstu do środka
         self.textbox.tag_add("center", "1.0", "end")
 
-        self.button1 = ctk.CTkButton(master=self.app, text="Porównanie miast w Polsce",font=('Helvetica',15), command=lambda:[self.show_comparing_window(), self.on_closing()]) #po wciśnięciu przycisku zadziałają dwie funckcje, zamkknięcie tego okna i otwarcie nowego
+        self.button1 = ctk.CTkButton(master=self.app, text="Porównanie miast w Polsce",font=('Helvetica',15), command=lambda:[self.show_comparing_window(), self.on_closing()]) #po wciśnięciu przycisku zadziałają dwie funckcje, zamkknięcie tego okna i otwarcie nowego (dlatego musi być lambda)
         self.button1.place(relx=0.15, rely=0.7)
 
         self.button2 = ctk.CTkButton(master=self.app, text="Dane dla wybranego miasta",font=('Helvetica',15), command=lambda:[self.show_city_window(), self.on_closing()])
