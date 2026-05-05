@@ -15,6 +15,7 @@ class ctkAppCity:
 
         self.frame = ctk.CTkFrame(master=self.app, height=680, width=self.app.winfo_width()*0.6, fg_color="black") #pole, w którym będą się wyświetlać wykresy
         self.frame.grid(row=0, column=0, padx=10, pady=10)
+        self.frame.grid_propagate(False) #frame nie będzie dopasowywał swojego rozmiaru do zawartości
 
         combobox = ctk.CTkComboBox(master=self.app, values=cities, command=self.combobox_callback)
         combobox.place(relx=0.8, rely=0.1)
@@ -41,7 +42,11 @@ class ctkAppCity:
     def choose_plot(self, plot_func: Callable[[pd.DataFrame, str], None]): #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame oraz str (czyli nazwę miasta)
         '''Wywołanie odpowiedniej funkcji rysującej wykres, a następnie wywołanie funkcji, która go wyświetli'''
         fig = plot_func(ad.df, self.city)
-        self.show_plot(fig)
+        if fig is None:
+            self.not_enough_data()
+        else:
+            self.show_plot(fig)
+    
 
     def not_enough_data(self):
         self.textbox = ctk.CTkTextbox(master=self.frame, width=636, height=85, text_color="#99CCFF", font=('Helvetica',19)) #pole tekstowe
@@ -50,12 +55,12 @@ class ctkAppCity:
         self.textbox.tag_config("center", justify="center") #ta linijka i jedna poniżej odpowiadają za wyrównanie tekstu do środka
         self.textbox.tag_add("center", "1.0", "end")
 
+
     def show_plot(self, fig):
         '''Wyświetlanie w oknie wybranego wykresu'''
         canvas = FigureCanvasTkAgg(fig, master=self.frame)
         canvas.draw()
         canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
-
 
 if __name__ == "__main__":        
     CTK_Window = ctkAppCity()
