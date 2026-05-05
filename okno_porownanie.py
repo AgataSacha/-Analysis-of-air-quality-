@@ -35,18 +35,18 @@ class ctkAppCompare:
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
         self.app.mainloop() 
 
-    def choose_plot(self, plot_func: Callable[[pd.DataFrame], matplotlib.figure.Figure]): #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame i zwraca wykres matplotlib
+    def choose_plot(self, plot_func: Callable[[pd.DataFrame], matplotlib.figure.Figure]) -> None: #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame i zwraca wykres matplotlib
         '''Wywołanie odpowiedniej funkcji rysującej wykres, a następnie wywołanie funkcji, która go wyświetli'''
         fig = plot_func(ad.df)
         self.show_plot(fig)
 
-    def show_plot(self, fig: matplotlib.figure.Figure):
+    def show_plot(self, fig: matplotlib.figure.Figure) -> None:
         '''Wyświetlanie w oknie wybranego wykresu'''
         canvas = FigureCanvasTkAgg(fig, master=self.frame)
         canvas.draw()
         canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
 
-    def show_table(self):
+    def show_table(self) -> None:
         '''Wyświetlanie tabeli z danymi z pandas DataFrame'''
         tree = ttk.Treeview(self.frame, columns=list(ad.df.columns), show="headings")
         for col in ad.df.columns:
@@ -61,8 +61,7 @@ class ctkAppCompare:
         self.frame.grid_columnconfigure(0, weight=1)
 
 
-
-    def on_closing(self):
+    def on_closing(self) -> None:
         '''Zakończenie pracy okna'''
         self.app.quit() #zakończenie pętli mainloop
         self.app.destroy() #zniszczenie okna

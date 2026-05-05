@@ -28,16 +28,16 @@ class ctkAppCity:
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
         self.app.mainloop() 
 
-    def on_closing(self):
+    def on_closing(self) -> None:
         '''Zakończenie pracy okna'''
         self.app.quit() #zakończenie pętli mainloop
         self.app.destroy() #zniszczenie okna
 
-    def combobox_callback(self, chosen_city):
+    def combobox_callback(self, chosen_city) -> None:
         '''Przypisanie zmiennej miasta wybranego z listy rozwijalnej'''
         self.city = chosen_city
 
-    def choose_plot(self, plot_func: Callable[[pd.DataFrame, str], None]): #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame oraz str (czyli nazwę miasta)
+    def choose_plot(self, plot_func: Callable[[pd.DataFrame, str], None]) -> None: #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame oraz str (czyli nazwę miasta)
         '''Wywołanie odpowiedniej funkcji rysującej wykres, a następnie wywołanie funkcji, która go wyświetli'''
         fig = plot_func(ad.df, self.city)
         if fig is None: #jeśli jest za mało danych, to funkcja pie_chart_of_air_composition_in_chosen_city zwraca None
@@ -46,7 +46,7 @@ class ctkAppCity:
             self.show_plot(fig) #jeśli są wszystkie dane, to zostanie wyświetlony wykres
     
 
-    def not_enough_data(self):
+    def not_enough_data(self) -> None:
         '''Jeśli nie ma wystarczająco danych, w oknie wyświetli się komunikat'''
         self.textbox = ctk.CTkTextbox(master=self.frame, height=680, width=self.app.winfo_width()*0.6, text_color="#99CCFF", font=('Helvetica',19)) #pole tekstowe
         self.textbox.place(relx=0.5, rely=0.5, anchor="center")  #wyśrodkowanie w frame, musi być place a nie pack, bo pack ignoruje rozmiar frame'a ustawiony poprzez propagate(False)
@@ -55,7 +55,7 @@ class ctkAppCity:
         self.textbox.tag_add("center", "1.0", "end")
 
 
-    def show_plot(self, fig):
+    def show_plot(self, fig) -> None:
         '''Wyświetlanie w oknie wybranego wykresu'''
         canvas = FigureCanvasTkAgg(fig, master=self.frame)
         canvas.draw()
