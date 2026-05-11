@@ -5,7 +5,6 @@ from tabulate import tabulate
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-import plotly.express as px
 
 df = pd.read_csv("jakosc_powietrza.csv") #zczytanie danych z pliku csv
 df = df.dropna(axis=1, how='all') #usunięcie kolumn, w których nie ma żadnych danych
@@ -15,12 +14,19 @@ def show_table_in_console(df: pd.DataFrame):
     print(tabulate(df))
 
 
-def show_city_with_the_biggest_pollution(df: pd.DataFrame) -> tuple[str, float]:
+def show_city_with_the_biggest_pollution(df: pd.DataFrame) -> tuple[str, float]: #funkcja zwraca krotkę z nazwą miasta i wartością zanieczysczenia
     '''Ta funkcja zwraca miasto o największym zanieczyszczeniu powietrza'''
     max_pollution = df["AQI"].max() #najwyższy poziom zanieczyszczenia
     max_pollution_index = df["AQI"].idxmax() #indeks wiersza, w którym znajduje się najwyższe zanieczyszczenie
     city_max_pollution = df.iloc[max_pollution_index, 1] #miasto, w którym  jest największe zanieczyszczenie, gdzie: iloc[wiersz, kolumna]
     return (city_max_pollution, max_pollution)
+
+def show_city_with_the_smallest_pollution(df: pd.DataFrame) -> tuple[str, float]:
+    '''Ta funkcja zwraca miasto o najmniejszym zanieczyszczeniu powietrza'''
+    min_pollution = df["AQI"].min() #najniższy poziom zanieczyszczenia
+    min_pollution_index = df["AQI"].idxmin() 
+    city_min_pollution = df.iloc[min_pollution_index, 1] 
+    return (city_min_pollution, min_pollution)
 
 
 def bar_plot_of_aqi_in_cities(df: pd.DataFrame) -> matplotlib.figure.Figure:

@@ -1,9 +1,7 @@
 import pandas as pd
-from tabulate import tabulate
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-import plotly.express as px
 
 df = pd.read_csv("jakosc_powietrza.csv") #zczytanie danych z pliku csv
 df = df.dropna(axis=1, how='all') #usunięcie kolumn, w których nie ma żadnych danych

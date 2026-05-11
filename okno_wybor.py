@@ -1,4 +1,4 @@
-import customtkinter as ctk
+import customtkinter as ctk #biblioteka oparta na bibliotece tkinter, dzięki której wyświetlane okno lepiej wygląda
 import okno_porownanie
 import okno_miasto
 

@@ -2,12 +2,12 @@
 # CAŁY KOD TUTAJ JEST PRÓBNY, TO TRZEBA PRZEROBIĆ
 
 import analiza_danych_porownanie as ad
-import customtkinter as ctk
+import customtkinter as ctk 
 import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie
 from collections.abc import Callable #biblioteka do obsługi abstrakcyjnych klas bazowych (została wykorzystana do type hintów)
 import pandas as pd
-import tkinter.ttk as ttk
+import tkinter.ttk as ttk #moduł biblioteki tkinter, który daje dostęp do widżetów (tu został wykorzystany do wyświetlenia tabeli oraz paska przewijania)
 
 class ctkAppCompare:
     def __init__(self):
@@ -32,9 +32,13 @@ class ctkAppCompare:
         self.button_table.place(relx=0.79, rely=0.4)
         self.button_table._text_label.configure(wraplength=210)
 
-        self.button_table = ctk.CTkButton(master=self.app, width=210, text="Wyświetl miasto o największym zanieczyszczeniu", command=lambda:self.show_city_with_biggest_pollution(ad.show_city_with_the_biggest_pollution))
-        self.button_table.place(relx=0.79, rely=0.5)
-        self.button_table._text_label.configure(wraplength=210)
+        self.button_max_poll = ctk.CTkButton(master=self.app, width=210, text="Wyświetl miasto o największym zanieczyszczeniu", command=lambda:self.show_city_with_max_or_min_pollution(ad.show_city_with_the_biggest_pollution))
+        self.button_max_poll.place(relx=0.79, rely=0.5)
+        self.button_max_poll._text_label.configure(wraplength=210)
+
+        self.button_min_poll = ctk.CTkButton(master=self.app, width=210, text="Wyświetl miasto o najniższym zanieczyszczeniu", command=lambda:self.show_city_with_max_or_min_pollution(ad.show_city_with_the_smallest_pollution))
+        self.button_min_poll.place(relx=0.79, rely=0.6)
+        self.button_min_poll._text_label.configure(wraplength=210)
 
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
         self.app.mainloop() 
@@ -66,12 +70,16 @@ class ctkAppCompare:
         self.frame.grid_columnconfigure(0, weight=1)
 
 
-    def show_city_with_biggest_pollution(self, text_func: Callable[[pd.DataFrame], tuple[str, float]]) -> None: #argumentem funkcji jest inna funkcja, która zwraca krotkę
-        '''Wyświetlenie nazwy miasta o najgorszej jakości powietrza wraz z wartością'''
+    def show_city_with_max_or_min_pollution(self, text_func: Callable[[pd.DataFrame], tuple[str, float]]) -> None: #argumentem funkcji jest inna funkcja, która zwraca krotkę
+        '''Wyświetlenie nazwy miasta o najlepszej lub najgorszej jakości powietrza wraz z wartością'''
         city_biggest_poll, biggest_poll = text_func(ad.df)
         self.textbox = ctk.CTkTextbox(master=self.frame, height=680, width=self.app.winfo_width()*0.6, text_color="#99CCFF", font=('Helvetica',19)) #pole tekstowe
         self.textbox.place(relx=0.5, rely=0.5, anchor="center")  #wyśrodkowanie w frame, musi być place a nie pack, bo pack ignoruje rozmiar frame'a ustawiony poprzez propagate(False)
-        self.textbox.insert("0.0", f"Największe zanieczyszczenie jest w mieście {city_biggest_poll}. \nIndeks jakości powietrza wynosi tam {biggest_poll}.") #tekst
+        if text_func == ad.show_city_with_the_biggest_pollution: #jeżeli argumentem jest funkcja, która zwraca miasto o największym zanieczyszczeniu, to w textboxie wyświetli się "Największe..."
+            type = "Największe"
+        else:
+            type = "Najniższe"
+        self.textbox.insert("0.0", f"{type} zanieczyszczenie jest w mieście {city_biggest_poll}. \nIndeks jakości powietrza wynosi tam {biggest_poll}.") #tekst
         self.textbox.tag_config("center", justify="center") #ta linijka i jedna poniżej odpowiadają za wyrównanie tekstu do środka
         self.textbox.tag_add("center", "1.0", "end")
 
