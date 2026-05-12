@@ -1,7 +1,7 @@
 import customtkinter as ctk
 import analiza_danych_miasto as ad
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie
-from collections.abc import Callable
+from typing import Callable
 import pandas as pd
 from tworzenie_csv import cities
 

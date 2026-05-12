@@ -5,7 +5,7 @@ import analiza_danych_porownanie as ad
 import customtkinter as ctk 
 import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie
-from collections.abc import Callable #biblioteka do obsługi abstrakcyjnych klas bazowych (została wykorzystana do type hintów)
+from typing import Callable 
 import pandas as pd
 import tkinter.ttk as ttk #moduł biblioteki tkinter, który daje dostęp do widżetów (tu został wykorzystany do wyświetlenia tabeli oraz paska przewijania)
 
