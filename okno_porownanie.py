@@ -15,6 +15,7 @@ class ctkAppCompare:
         self.app = ctk.CTk() 
         self.app.title("Jakość powietrza") #nazwa wyświetlanego okna
         self.app.geometry("1100x700") #wymiary wyświetlanego okna
+        self.app.resizable(False, False)
         self.app.update()
 
         self.frame = ctk.CTkFrame(master=self.app, height=680, width=self.app.winfo_width()*0.6, fg_color="black") #pole, w którym będą się wyświetlać wykresy
