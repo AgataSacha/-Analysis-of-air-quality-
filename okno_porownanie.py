@@ -22,6 +22,17 @@ class ctkAppCompare:
         self.frame.grid(row=0, column=0, padx=10, pady=10) #bez tego frame się nie wyświetli
         self.frame.grid_propagate(False) #frame nie będzie dopasowywał swojego rozmiaru do zawartości
 
+        self.statistics_frame = ctk.CTkFrame(master=self.app, height=250, width=self.app.winfo_width()*0.175, fg_color="black") #pole, w którym będą wyświetlane podstawowe statystyki
+        self.statistics_frame.place(relx=0.77, rely=0.6)
+
+        city_biggest_poll, biggest_poll = ad.show_city_with_the_biggest_pollution(ad.df)
+        city_smallest_poll, smallest_poll = ad.show_city_with_the_smallest_pollution(ad.df)
+        mean_poll, std_poll, var_poll = ad.statistics(ad.df)
+
+        self.textbox_statistic = ctk.CTkTextbox(master=self.statistics_frame, height=250, width=self.app.winfo_width()*0.175, fg_color="black", text_color="#99CCFF", font=('Helvetica',12)) #pole tekstowe
+        self.textbox_statistic.place(relx=0.5, rely=0.5, anchor="center")
+        self.textbox_statistic.insert("0.0", f"Statystyki dotyczące AQI (Air Quality Index) \n \nNajwyższe zanieczyszczenie: {city_biggest_poll} \nPoziom zanieczyszczenia: {biggest_poll} \n \nNajniższe zanieczyszczenie: {city_smallest_poll} \nPoziom zanieczyszczenia: {smallest_poll} \n \nŚrednie zanieczyszczenie: {mean_poll}\n \nOdchylenie standardowe: {std_poll} \n \nWariancja: {var_poll}" )
+
         self.button_aqi_in_cities = ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres porównujący AQI", command=lambda: self.choose_plot(ad.bar_plot_of_aqi_in_cities)) #musi być lambda, bo inaczej funkcja wywoła się od razu, a nie dopiero po kliknięciu przycisku (dlatego, że self.choose_plot() wymaga argumentu, gdyby było samo choose_plot, to nie byłoby problemu)
         self.button_aqi_in_cities.place(relx=0.79, rely=0.2) #położenie przycisku względem frame
 
@@ -32,14 +43,6 @@ class ctkAppCompare:
         self.button_table = ctk.CTkButton(master=self.app, width=210, text="Wyświetl tabelę ze wszystkimi danymi", command=self.show_table)
         self.button_table.place(relx=0.79, rely=0.4)
         self.button_table._text_label.configure(wraplength=210)
-
-        self.button_max_poll = ctk.CTkButton(master=self.app, width=210, text="Wyświetl miasto o największym zanieczyszczeniu", command=lambda:self.show_city_with_max_or_min_pollution(ad.show_city_with_the_biggest_pollution))
-        self.button_max_poll.place(relx=0.79, rely=0.5)
-        self.button_max_poll._text_label.configure(wraplength=210)
-
-        self.button_min_poll = ctk.CTkButton(master=self.app, width=210, text="Wyświetl miasto o najniższym zanieczyszczeniu", command=lambda:self.show_city_with_max_or_min_pollution(ad.show_city_with_the_smallest_pollution))
-        self.button_min_poll.place(relx=0.79, rely=0.6)
-        self.button_min_poll._text_label.configure(wraplength=210)
 
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
         self.app.mainloop() 
@@ -69,20 +72,6 @@ class ctkAppCompare:
         scrollbar_x.grid(row=1, column=0, sticky="ew") #dodanie widoku paska przesuwania
         self.frame.grid_rowconfigure(0, weight=1) #dzięki tej i następnej linii tkinter wie, że tabela ma zająć całego frame'a
         self.frame.grid_columnconfigure(0, weight=1)
-
-
-    def show_city_with_max_or_min_pollution(self, text_func: Callable[[pd.DataFrame], tuple[str, float]]) -> None: #argumentem funkcji jest inna funkcja, która zwraca krotkę
-        '''Wyświetlenie nazwy miasta o najlepszej lub najgorszej jakości powietrza wraz z wartością'''
-        city_biggest_poll, biggest_poll = text_func(ad.df)
-        self.textbox = ctk.CTkTextbox(master=self.frame, height=680, width=self.app.winfo_width()*0.6, text_color="#99CCFF", font=('Helvetica',19)) #pole tekstowe
-        self.textbox.place(relx=0.5, rely=0.5, anchor="center")  #wyśrodkowanie w frame, musi być place a nie pack, bo pack ignoruje rozmiar frame'a ustawiony poprzez propagate(False)
-        if text_func == ad.show_city_with_the_biggest_pollution: #jeżeli argumentem jest funkcja, która zwraca miasto o największym zanieczyszczeniu, to w textboxie wyświetli się "Największe..."
-            type = "Największe"
-        else:
-            type = "Najniższe"
-        self.textbox.insert("0.0", f"{type} zanieczyszczenie jest w mieście {city_biggest_poll}. \nIndeks jakości powietrza wynosi tam {biggest_poll}.") #tekst
-        self.textbox.tag_config("center", justify="center") #ta linijka i jedna poniżej odpowiadają za wyrównanie tekstu do środka
-        self.textbox.tag_add("center", "1.0", "end")
 
 
     def on_closing(self) -> None:

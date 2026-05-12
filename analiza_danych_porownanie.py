@@ -28,6 +28,16 @@ def show_city_with_the_smallest_pollution(df: pd.DataFrame) -> tuple[str, float]
     city_min_pollution = df.iloc[min_pollution_index, 1] 
     return (city_min_pollution, min_pollution)
 
+def statistics(df: pd.DataFrame) -> tuple[float]:
+    '''Ta funkcja zwraca średnią, odchylenie standardowe oraz wariancję dla AQI'''
+    mean_poll = df["AQI"].mean()
+    std_poll = df["AQI"].std()
+    var_poll = df["AQI"].var()
+    mean_poll = round(mean_poll, 4)
+    std_poll = round(std_poll, 4)
+    var_poll = round(var_poll, 4)
+    return (mean_poll, std_poll, var_poll)
+
 
 def bar_plot_of_aqi_in_cities(df: pd.DataFrame) -> matplotlib.figure.Figure:
     '''Ta funkcja wyświetla wykres kolumnowy pokazujący ogólny poziom zanieczyszczenia w każdym mieście'''
