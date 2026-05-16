@@ -29,7 +29,7 @@ def show_city_with_the_smallest_pollution(df: pd.DataFrame) -> tuple[str, float]
     return (city_min_pollution, min_pollution)
 
 def statistics(df: pd.DataFrame) -> tuple[float]:
-    '''Ta funkcja zwraca średnią, odchylenie standardowe oraz wariancję dla AQI'''
+    '''Ta funkcja zwraca podstawowe statystyki dla AQI'''
     mean_poll = df["AQI"].mean()
     std_poll = df["AQI"].std()
     var_poll = df["AQI"].var()

@@ -34,7 +34,7 @@ class ctkAppCompare:
         self.textbox_statistic.insert("0.0", f"Statystyki dotyczące AQI (Air Quality Index) \n \nNajwyższe zanieczyszczenie: {city_biggest_poll} \nPoziom zanieczyszczenia: {biggest_poll} \n \nNajniższe zanieczyszczenie: {city_smallest_poll} \nPoziom zanieczyszczenia: {smallest_poll} \n \nŚrednie zanieczyszczenie: {mean_poll}\n \nOdchylenie standardowe: {std_poll} \n \nWariancja: {var_poll}" )
 
         self.button_aqi_in_cities = ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres porównujący AQI", command=lambda: self.choose_plot(ad.bar_plot_of_aqi_in_cities)) #musi być lambda, bo inaczej funkcja wywoła się od razu, a nie dopiero po kliknięciu przycisku (dlatego, że self.choose_plot() wymaga argumentu, gdyby było samo choose_plot, to nie byłoby problemu)
-        self.button_aqi_in_cities.place(relx=0.79, rely=0.2) #położenie przycisku względem frame
+        self.button_aqi_in_cities.place(relx=0.79, rely=0.24) #położenie przycisku względem frame
 
         self.button_typ_of_pollution = ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres porównujący rodzaj i poziom zanieczyszczenia", command=lambda: self.choose_plot(ad.stacked_bar_plot_type_of_pollution))
         self.button_typ_of_pollution.place(relx=0.79, rely=0.3)
