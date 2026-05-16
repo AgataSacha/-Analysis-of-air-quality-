@@ -22,6 +22,9 @@ class ctkAppCity:
         combobox.place(relx=0.8, rely=0.1) #położenie listy rozwijalnej
         combobox.set("Wybierz miasto") #ustawienie tekstu, który będzie się wyświetlał, zanim z listy rozwijalnej zostanie wybrane miasto
 
+        self.statistics_frame = ctk.CTkFrame(master=self.app, height=250, width=self.app.winfo_width()*0.175, fg_color="black") #pole, w którym będą wyświetlane podstawowe statystyki
+        self.statistics_frame.place(relx=0.77, rely=0.6)
+
         self.button_air_composition = ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres kołowy przedstawiający skład powietrza", command=lambda: self.choose_plot(ad.pie_chart_of_air_composition_in_chosen_city))
         self.button_air_composition.place(relx=0.79, rely=0.4)
         self.button_air_composition._text_label.configure(wraplength=210) #zawijanie tekstu na przycisku
@@ -37,6 +40,14 @@ class ctkAppCity:
     def combobox_callback(self, chosen_city) -> None:
         '''Przypisanie zmiennej miasta wybranego z listy rozwijalnej'''
         self.city = chosen_city
+        self.weather_data()
+
+    def weather_data(self) -> None:
+        temp, wind, humidity, pressure = ad.weather_conditions(ad.df, self.city)
+        self.textbox_statistic = ctk.CTkTextbox(master=self.statistics_frame, height=250, width=self.app.winfo_width()*0.175, fg_color="black", text_color="#99CCFF", font=('Helvetica',12)) #pole tekstowe
+        self.textbox_statistic.place(relx=0.5, rely=0.5, anchor="center")
+        self.textbox_statistic.insert("0.0", f"Warunki pogodowe w mieście {self.city}: \n \nTemperatura: {temp} \n \nWiatr: {wind} \n \nWilgotność powietrza: {humidity} \n \nCiśnienie atmosferyczne: {pressure} ")
+
 
     def choose_plot(self, plot_func: Callable[[pd.DataFrame, str], None]) -> None: #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame oraz str (czyli nazwę miasta)
         '''Wywołanie odpowiedniej funkcji rysującej wykres, a następnie wywołanie funkcji, która go wyświetli'''

@@ -25,11 +25,24 @@ def pie_chart_of_air_composition_in_chosen_city(df: pd.DataFrame, city: str) -> 
     plt.title(f"Skład powietrza dla miasta {city}")
     return fig
 
+def weather_conditions(df: pd.DataFrame, city: str) -> tuple[float]:
+    '''Ta funkcja zrwaca wartości temperatury, wiatru, wilgotności i ciśnienia dla wybranego miasta'''
+    row = df.index.get_loc(df[df["Miasto"] == city].index[0])
+    temp = df._get_value(row, "Temperatura")
+    wind = df._get_value(row, "Wiatr")
+    humidity = df._get_value(row, "Wilgotność")
+    pressure = df._get_value(row, "Ciśnienie")
+    return (temp, wind, humidity, pressure)
+    
+
+    
+
 
 
 
 def main():
-    pie_chart_of_air_composition_in_chosen_city(df, "Warszawa")
+    #pie_chart_of_air_composition_in_chosen_city(df, "Warszawa")
+    weather_conditions(df, "Warszawa")
 
 
 if __name__ == "__main__":
