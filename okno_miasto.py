@@ -43,11 +43,11 @@ class ctkAppCity:
         self.weather_data()
 
     def weather_data(self) -> None:
+        '''Wyświetlenie wartości temperatury, wiatru, wilgotności i ciśnienia dla wybranego miasta'''
         temp, wind, humidity, pressure = ad.weather_conditions(ad.df, self.city)
         self.textbox_statistic = ctk.CTkTextbox(master=self.statistics_frame, height=250, width=self.app.winfo_width()*0.175, fg_color="black", text_color="#99CCFF", font=('Helvetica',12)) #pole tekstowe
         self.textbox_statistic.place(relx=0.5, rely=0.5, anchor="center")
         self.textbox_statistic.insert("0.0", f"Warunki pogodowe w mieście {self.city}: \n \nTemperatura: {temp} \n \nWiatr: {wind} \n \nWilgotność powietrza: {humidity} \n \nCiśnienie atmosferyczne: {pressure} ")
-
 
     def choose_plot(self, plot_func: Callable[[pd.DataFrame, str], None]) -> None: #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame oraz str (czyli nazwę miasta)
         '''Wywołanie odpowiedniej funkcji rysującej wykres, a następnie wywołanie funkcji, która go wyświetli'''
@@ -56,7 +56,6 @@ class ctkAppCity:
             self.not_enough_data() #wówczas wyświetli się textbox informujący o za wiewystarczającej liczbie danych
         else:
             self.show_plot(fig) #jeśli są wszystkie dane, to zostanie wyświetlony wykres
-    
 
     def not_enough_data(self) -> None:
         '''Jeśli nie ma wystarczająco danych, w oknie wyświetli się komunikat'''
@@ -65,7 +64,6 @@ class ctkAppCity:
         self.textbox.insert("0.0", "Brak wystarczających danych") #tekst
         self.textbox.tag_config("center", justify="center") #ta linijka i jedna poniżej odpowiadają za wyrównanie tekstu do środka
         self.textbox.tag_add("center", "1.0", "end")
-
 
     def show_plot(self, fig) -> None:
         '''Wyświetlanie w oknie wybranego wykresu'''
