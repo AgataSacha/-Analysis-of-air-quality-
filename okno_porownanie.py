@@ -48,6 +48,12 @@ class ctkAppCompare:
         self.button_temp.place(relx=0.79, rely=0.37)
         self.button_temp._text_label.configure(wraplength=210) 
 
+        self.button_humidity= ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres porównujący wilgotność powietrza w miastach", command=lambda: self.choose_plot(ad.barh_plot_humidity))
+        self.button_humidity.place(relx=0.79, rely=0.45)
+        self.button_humidity._text_label.configure(wraplength=210)
+
+#ZAMIAST PRZYCISKÓW DLA WARUNKÓW POGODOWYCH MOŻNA DAĆ CHECKBOXY !!!
+
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
         self.app.mainloop() 
 

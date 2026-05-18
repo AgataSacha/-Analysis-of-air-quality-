@@ -69,18 +69,51 @@ def stacked_bar_plot_type_of_pollution(df: pd.DataFrame) -> matplotlib.figure.Fi
     return fig
 
 def barh_plot_tempetarure(df: pd.DataFrame) -> matplotlib.figure.Figure:
-    '''Ta funkcja wyświetla wykres kolumnowy porównujący temperaturę'''
+    '''Ta funkcja wyświetla wykres słupkowy porównujący temperaturę'''
     cities = df["Miasto"].tolist() #konwersja kolumny do listy
     temp = df["Temperatura"].tolist()
     fig, ax = plt.subplots()
     plt.barh(cities, temp, color="#63ACC3")
     plt.title("Temperatura")
-    plt.xlabel("Miasto")
-    plt.ylabel("\u00B0C") #kod \u00B0 to symbol stopnia
+    plt.xlabel("\u00B0C") #kod \u00B0 to symbol stopnia
+    plt.ylabel("Miasto") 
+    return fig
+
+def barh_plot_humidity(df: pd.DataFrame) -> matplotlib.figure.Figure:
+    '''Ta funkcja rysuje wykres słupkowy porównujący wilgotność powietrza'''
+    cities = df["Miasto"].tolist() #konwersja kolumny do listy
+    hum = df["Wilgotność"].tolist()
+    fig, ax = plt.subplots()
+    plt.barh(cities, hum, color="#B387DA")
+    plt.title("Wilgotność")
+    plt.xlabel("%")
+    plt.ylabel("Miasto")
+    return fig
+
+def barh_plot_wind(df: pd.DataFrame) -> matplotlib.figure.Figure:
+    '''Ta funkcja rysuje wykres słupkowy porównujący prędkość wiatru'''
+    cities = df["Miasto"].tolist() 
+    wind = df["Wiatr"].tolist()
+    fig, ax = plt.subplots()
+    plt.barh(cities, wind, color="#D4E730")
+    plt.title("Prędkość wiatru")
+    plt.xlabel("m/s")
+    plt.ylabel("Miasto")
+    return fig
+
+def barh_plot_press(df: pd.DataFrame) -> matplotlib.figure.Figure:
+    '''Ta funkcja rysuje wykres słupkowy porównujący ciśnienie atmosferyczbe'''
+    cities = df["Miasto"].tolist() 
+    press = df["Ciśnienie"].tolist()
+    fig, ax = plt.subplots()
+    plt.barh(cities, press, color="#F361C0")
+    plt.title("Ciśnienie atmosferyczne")
+    plt.xlabel("hPa")
+    plt.ylabel("Miasto")
     return fig
 
 def main():
-    barh_plot_tempetarure(df)
+    barh_plot_press(df)
 
 
 if __name__ == "__main__":
