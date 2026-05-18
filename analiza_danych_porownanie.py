@@ -68,19 +68,19 @@ def stacked_bar_plot_type_of_pollution(df: pd.DataFrame) -> matplotlib.figure.Fi
     fig.tight_layout() #automatyczne dopasowanie wszystkich elementów (w tym podpisów, żeby nie nachodziły na siebie)
     return fig
 
-def bar_plot_tempetarure(df: pd.DataFrame) -> matplotlib.figure.Figure:
+def barh_plot_tempetarure(df: pd.DataFrame) -> matplotlib.figure.Figure:
     '''Ta funkcja wyświetla wykres kolumnowy porównujący temperaturę'''
     cities = df["Miasto"].tolist() #konwersja kolumny do listy
     temp = df["Temperatura"].tolist()
     fig, ax = plt.subplots()
-    plt.barh(cities, temp)
+    plt.barh(cities, temp, color="#63ACC3")
     plt.title("Temperatura")
     plt.xlabel("Miasto")
     plt.ylabel("\u00B0C") #kod \u00B0 to symbol stopnia
     return fig
 
 def main():
-    bar_plot_tempetarure(df)
+    barh_plot_tempetarure(df)
 
 
 if __name__ == "__main__":

@@ -44,7 +44,7 @@ class ctkAppCompare:
         self.button_table.place(relx=0.79, rely=0.3)
         self.button_table._text_label.configure(wraplength=210)
 
-        self.button_temp= ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres porównujący temperaturę w miastach", command=lambda: self.choose_plot(ad.bar_plot_tempetarure))
+        self.button_temp= ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres porównujący temperaturę w miastach", command=lambda: self.choose_plot(ad.barh_plot_tempetarure))
         self.button_temp.place(relx=0.79, rely=0.37)
         self.button_temp._text_label.configure(wraplength=210) 
 
