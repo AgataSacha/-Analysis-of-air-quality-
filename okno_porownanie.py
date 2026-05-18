@@ -22,6 +22,34 @@ class ctkAppCompare:
         self.frame.grid(row=0, column=0, padx=10, pady=10) #bez tego frame się nie wyświetli
         self.frame.grid_propagate(False) #frame nie będzie dopasowywał swojego rozmiaru do zawartości
 
+        self.button_aqi_in_cities = ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres porównujący AQI", command=lambda: self.choose_plot(ad.bar_plot_of_aqi_in_cities)) #musi być lambda, bo inaczej funkcja wywoła się od razu, a nie dopiero po kliknięciu przycisku (dlatego, że self.choose_plot() wymaga argumentu, gdyby było samo choose_plot, to nie byłoby problemu)
+        self.button_aqi_in_cities.place(relx=0.79, rely=0.1) #położenie przycisku względem frame
+
+        self.button_typ_of_pollution = ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres porównujący rodzaj i poziom zanieczyszczenia", command=lambda: self.choose_plot(ad.stacked_bar_plot_type_of_pollution))
+        self.button_typ_of_pollution.place(relx=0.79, rely=0.16)
+        self.button_typ_of_pollution._text_label.configure(wraplength=210) #zawijanie tekstu na przycisku
+
+        self.button_table = ctk.CTkButton(master=self.app, width=210, text="Wyświetl tabelę ze wszystkimi danymi", command=self.show_table)
+        self.button_table.place(relx=0.79, rely=0.26)
+        self.button_table._text_label.configure(wraplength=210)
+
+        self.textbox_statistic = ctk.CTkTextbox(master=self.app, height=50, width=self.app.winfo_width()*0.18, fg_color="transparent", font=('Helvetica',12, "bold")) #pole tekstowe
+        self.textbox_statistic.place(relx=0.88, rely=0.35, anchor="center")
+        self.textbox_statistic.insert("0.0", "Wyświetl wykres porównujący któryś z wybranych warunków pogodowych: " )
+
+
+        self.checkbox_temp = ctk.CTkCheckBox(master=self.app, width=10, height=10, text="Temperatura", command=lambda: self.choose_plot(ad.barh_plot_tempetarure))
+        self.checkbox_temp.place(relx=0.79, rely=0.4)
+
+        self.checkbox_hum = ctk.CTkCheckBox(master=self.app, width=10, height=10, text="Wilgotność powietrza", command=lambda: self.choose_plot(ad.barh_plot_humidity))
+        self.checkbox_hum.place(relx=0.79, rely=0.45)
+
+        self.checkbox_wind = ctk.CTkCheckBox(master=self.app, width=10, height=10, text="Prędkość wiatru", command=lambda: self.choose_plot(ad.barh_plot_wind))
+        self.checkbox_wind.place(relx=0.79, rely=0.5)
+
+        self.checkbox_press = ctk.CTkCheckBox(master=self.app, width=10, height=10, text="Ciśnienie atmosferyczne", command=lambda: self.choose_plot(ad.barh_plot_press))
+        self.checkbox_press.place(relx=0.79, rely=0.55)
+
         self.statistics_frame = ctk.CTkFrame(master=self.app, height=250, width=self.app.winfo_width()*0.175, fg_color="black") #pole, w którym będą wyświetlane podstawowe statystyki
         self.statistics_frame.place(relx=0.77, rely=0.6)
 
@@ -32,27 +60,6 @@ class ctkAppCompare:
         self.textbox_statistic = ctk.CTkTextbox(master=self.statistics_frame, height=250, width=self.app.winfo_width()*0.175, fg_color="black", text_color="#99CCFF", font=('Helvetica',12)) #pole tekstowe
         self.textbox_statistic.place(relx=0.5, rely=0.5, anchor="center")
         self.textbox_statistic.insert("0.0", f"Statystyki dotyczące AQI (Air Quality Index) \n \nNajwyższe zanieczyszczenie: {city_biggest_poll} \nPoziom zanieczyszczenia: {biggest_poll} \n \nNajniższe zanieczyszczenie: {city_smallest_poll} \nPoziom zanieczyszczenia: {smallest_poll} \n \nŚrednie zanieczyszczenie: {mean_poll}\n \nOdchylenie standardowe: {std_poll} \n \nWariancja: {var_poll}" )
-
-        self.button_aqi_in_cities = ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres porównujący AQI", command=lambda: self.choose_plot(ad.bar_plot_of_aqi_in_cities)) #musi być lambda, bo inaczej funkcja wywoła się od razu, a nie dopiero po kliknięciu przycisku (dlatego, że self.choose_plot() wymaga argumentu, gdyby było samo choose_plot, to nie byłoby problemu)
-        self.button_aqi_in_cities.place(relx=0.79, rely=0.14) #położenie przycisku względem frame
-
-        self.button_typ_of_pollution = ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres porównujący rodzaj i poziom zanieczyszczenia", command=lambda: self.choose_plot(ad.stacked_bar_plot_type_of_pollution))
-        self.button_typ_of_pollution.place(relx=0.79, rely=0.2)
-        self.button_typ_of_pollution._text_label.configure(wraplength=210) #zawijanie tekstu na przycisku
-
-        self.button_table = ctk.CTkButton(master=self.app, width=210, text="Wyświetl tabelę ze wszystkimi danymi", command=self.show_table)
-        self.button_table.place(relx=0.79, rely=0.3)
-        self.button_table._text_label.configure(wraplength=210)
-
-        self.button_temp= ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres porównujący temperaturę w miastach", command=lambda: self.choose_plot(ad.barh_plot_tempetarure))
-        self.button_temp.place(relx=0.79, rely=0.37)
-        self.button_temp._text_label.configure(wraplength=210) 
-
-        self.button_humidity= ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres porównujący wilgotność powietrza w miastach", command=lambda: self.choose_plot(ad.barh_plot_humidity))
-        self.button_humidity.place(relx=0.79, rely=0.45)
-        self.button_humidity._text_label.configure(wraplength=210)
-
-#ZAMIAST PRZYCISKÓW DLA WARUNKÓW POGODOWYCH MOŻNA DAĆ CHECKBOXY !!!
 
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
         self.app.mainloop() 
