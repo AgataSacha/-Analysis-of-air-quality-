@@ -4,6 +4,7 @@ import requests #biblioteka do komunikacji ze stronami internetowymi
 import csv #biblioteka potrzebna do utworzenia pliku csv z pobranymi danymi
 import time 
 
+#może tak: zapytać użytkownika który kraj go interesuje i potem cała reszta
 cities: list[str] = ["Warszawa", "Kraków", "Wrocław", "Łódź", "Poznań", "Gdańsk", "Szczecin", "Lublin", "Bydgoszcz", "Białystok", "Katowice"] #lista największych miast w Polsce
 
 def get_data (city: str, token: str) -> dict:

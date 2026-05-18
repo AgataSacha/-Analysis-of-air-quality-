@@ -38,7 +38,6 @@ def statistics(df: pd.DataFrame) -> tuple[float]:
     var_poll = round(var_poll, 4)
     return (mean_poll, std_poll, var_poll)
 
-
 def bar_plot_of_aqi_in_cities(df: pd.DataFrame) -> matplotlib.figure.Figure:
     '''Ta funkcja wyświetla wykres kolumnowy pokazujący ogólny poziom zanieczyszczenia w każdym mieście'''
     city = df["Miasto"].tolist()
@@ -49,7 +48,6 @@ def bar_plot_of_aqi_in_cities(df: pd.DataFrame) -> matplotlib.figure.Figure:
     plt.xlabel("Miasto")
     plt.ylabel("AQI")
     return fig
-
 
 def stacked_bar_plot_type_of_pollution(df: pd.DataFrame) -> matplotlib.figure.Figure:
     '''Ta funkcja wyświetla wykres kolumnowy skumulowany porównujący zawartość pm2,5 i pm10 dla poszczególnych miast'''
@@ -70,9 +68,19 @@ def stacked_bar_plot_type_of_pollution(df: pd.DataFrame) -> matplotlib.figure.Fi
     fig.tight_layout() #automatyczne dopasowanie wszystkich elementów (w tym podpisów, żeby nie nachodziły na siebie)
     return fig
 
+def bar_plot_tempetarure(df: pd.DataFrame) -> matplotlib.figure.Figure:
+    '''Ta funkcja wyświetla wykres kolumnowy porównujący temperaturę'''
+    cities = df["Miasto"].tolist() #konwersja kolumny do listy
+    temp = df["Temperatura"].tolist()
+    fig, ax = plt.subplots()
+    plt.barh(cities, temp)
+    plt.title("Temperatura")
+    plt.xlabel("Miasto")
+    plt.ylabel("\u00B0C") #kod \u00B0 to symbol stopnia
+    return fig
 
 def main():
-    stacked_bar_plot_type_of_pollution(df)
+    bar_plot_tempetarure(df)
 
 
 if __name__ == "__main__":
