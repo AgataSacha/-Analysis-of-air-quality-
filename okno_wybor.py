@@ -17,10 +17,10 @@ class ctkAppChoice:
         self.textbox.tag_config("center", justify="center") #ta linijka i jedna poniżej odpowiadają za wyrównanie tekstu do środka
         self.textbox.tag_add("center", "1.0", "end")
 
-        self.button1 = ctk.CTkButton(master=self.app, text="Porównanie miast w Polsce",font=('Helvetica',15), command=lambda:[self.show_comparing_window(), self.on_closing()]) #po wciśnięciu przycisku zadziałają dwie funckcje, zamkknięcie tego okna i otwarcie nowego (dlatego musi być lambda)
+        self.button1 = ctk.CTkButton(master=self.app, text="Porównanie miast w Polsce",font=('Helvetica',15), command=lambda:[self.on_closing(), self.show_comparing_window()]) #po wciśnięciu przycisku zadziałają dwie funckcje, zamkknięcie tego okna i otwarcie nowego (dlatego musi być lambda)
         self.button1.place(relx=0.15, rely=0.7)
 
-        self.button2 = ctk.CTkButton(master=self.app, text="Dane dla wybranego miasta",font=('Helvetica',15), command=lambda:[self.show_city_window(), self.on_closing()])
+        self.button2 = ctk.CTkButton(master=self.app, text="Dane dla wybranego miasta",font=('Helvetica',15), command=lambda:[self.on_closing(), self.show_city_window()])
         self.button2.place(relx=0.6, rely=0.7)
 
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)

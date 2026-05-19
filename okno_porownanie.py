@@ -101,7 +101,6 @@ class ctkAppCompare:
         self.frame.grid_rowconfigure(0, weight=1) #dzięki tej i następnej linii tkinter wie, że tabela ma zająć całego frame'a
         self.frame.grid_columnconfigure(0, weight=1)
 
-
     def on_closing(self) -> None:
         '''Zakończenie pracy okna'''
         self.app.quit() #zakończenie pętli mainloop
