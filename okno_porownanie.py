@@ -36,18 +36,22 @@ class ctkAppCompare:
         self.textbox_statistic = ctk.CTkTextbox(master=self.app, height=50, width=self.app.winfo_width()*0.18, fg_color="transparent", font=('Helvetica',12, "bold")) #pole tekstowe
         self.textbox_statistic.place(relx=0.88, rely=0.35, anchor="center")
         self.textbox_statistic.insert("0.0", "Wyświetl wykres porównujący któryś z wybranych warunków pogodowych: " )
+        
+        self.check_var_temp = ctk.StringVar(value="off")
+        self.check_var_hum = ctk.StringVar(value="off")
+        self.check_var_wind = ctk.StringVar(value="off")
+        self.check_var_press = ctk.StringVar(value="off")
 
-
-        self.checkbox_temp = ctk.CTkCheckBox(master=self.app, width=10, height=10, text="Temperatura", command=lambda: self.choose_plot(ad.barh_plot_tempetarure))
+        self.checkbox_temp = ctk.CTkCheckBox(master=self.app, width=10, height=10, text="Temperatura", variable=self.check_var_temp, onvalue="on", offvalue="off", command=lambda: self.check_the_checkbox(self.check_var_temp, ad.barh_plot_tempetarure))
         self.checkbox_temp.place(relx=0.79, rely=0.4)
 
-        self.checkbox_hum = ctk.CTkCheckBox(master=self.app, width=10, height=10, text="Wilgotność powietrza", command=lambda: self.choose_plot(ad.barh_plot_humidity))
+        self.checkbox_hum = ctk.CTkCheckBox(master=self.app, width=10, height=10, text="Wilgotność powietrza", variable=self.check_var_hum, onvalue="on", offvalue="off", command=lambda: self.check_the_checkbox(self.check_var_hum, ad.barh_plot_humidity))
         self.checkbox_hum.place(relx=0.79, rely=0.45)
 
-        self.checkbox_wind = ctk.CTkCheckBox(master=self.app, width=10, height=10, text="Prędkość wiatru", command=lambda: self.choose_plot(ad.barh_plot_wind))
+        self.checkbox_wind = ctk.CTkCheckBox(master=self.app, width=10, height=10, text="Prędkość wiatru", variable=self.check_var_wind, onvalue="on", offvalue="off", command=lambda: self.check_the_checkbox(self.check_var_wind, ad.barh_plot_wind))
         self.checkbox_wind.place(relx=0.79, rely=0.5)
 
-        self.checkbox_press = ctk.CTkCheckBox(master=self.app, width=10, height=10, text="Ciśnienie atmosferyczne", command=lambda: self.choose_plot(ad.barh_plot_press))
+        self.checkbox_press = ctk.CTkCheckBox(master=self.app, width=10, height=10, text="Ciśnienie atmosferyczne", variable=self.check_var_press, onvalue="on", offvalue="off", command=lambda: self.check_the_checkbox(self.check_var_press, ad.barh_plot_press))
         self.checkbox_press.place(relx=0.79, rely=0.55)
 
         self.statistics_frame = ctk.CTkFrame(master=self.app, height=250, width=self.app.winfo_width()*0.175, fg_color="black") #pole, w którym będą wyświetlane podstawowe statystyki
@@ -75,6 +79,12 @@ class ctkAppCompare:
         canvas.draw()
         canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
 
+    def check_the_checkbox(self, check_var: ctk.StringVar, plot_func: Callable[[pd.DataFrame], matplotlib.figure.Figure]) -> None:
+        if check_var.get() == "on":
+            self.show_plot(plot_func(ad.df))
+        else:
+            for widget in self.frame.winfo_children():
+                widget.destroy()
 
     def show_table(self) -> None:
         '''Wyświetlanie tabeli z danymi z pandas DataFrame'''
