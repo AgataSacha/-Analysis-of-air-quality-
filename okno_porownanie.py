@@ -37,7 +37,7 @@ class ctkAppCompare:
         self.textbox_statistic.place(relx=0.88, rely=0.35, anchor="center")
         self.textbox_statistic.insert("0.0", "Wyświetl wykres porównujący któryś z wybranych warunków pogodowych: " )
         
-        self.check_var_temp = ctk.StringVar(value="off")
+        self.check_var_temp = ctk.StringVar(value="off") #domyślnie checkboxy będą wyłączone (niezaznaczone)
         self.check_var_hum = ctk.StringVar(value="off")
         self.check_var_wind = ctk.StringVar(value="off")
         self.check_var_press = ctk.StringVar(value="off")
@@ -80,10 +80,11 @@ class ctkAppCompare:
         canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
 
     def check_the_checkbox(self, check_var: ctk.StringVar, plot_func: Callable[[pd.DataFrame], matplotlib.figure.Figure]) -> None:
+        '''Jeśli checkbox jest zaznaczony, to zostanie wywołana funkcja rysująca wykres. Jeśli checkbox zostanie odznaczony, to nic nie będzie się wyświetlać we frame'''
         if check_var.get() == "on":
             self.show_plot(plot_func(ad.df))
         else:
-            for widget in self.frame.winfo_children():
+            for widget in self.frame.winfo_children(): #iterowanie po elementach, które wyświetlają się we frame i usuwanie ich
                 widget.destroy()
 
     def show_table(self) -> None:
