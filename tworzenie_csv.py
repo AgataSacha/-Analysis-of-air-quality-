@@ -3,9 +3,11 @@
 import requests #biblioteka do komunikacji ze stronami internetowymi
 import csv #biblioteka potrzebna do utworzenia pliku csv z pobranymi danymi
 import time 
+import start
 
-#może tak: zapytać użytkownika który kraj go interesuje i potem cała reszta
-cities: list[str] = ["Warszawa", "Kraków", "Wrocław", "Łódź", "Poznań", "Gdańsk", "Szczecin", "Lublin", "Bydgoszcz", "Białystok", "Katowice"] #lista największych miast w Polsce
+#cities: list[str] = ["Warszawa", "Kraków", "Wrocław", "Łódź", "Poznań", "Gdańsk", "Szczecin", "Lublin", "Bydgoszcz", "Białystok", "Katowice"] #lista największych miast w Polsce
+window = start.starting_window()
+cities = window.cities #w pliku okno_miasto robię "from tworzenie_csv import cities" i wcześniej działało, ale teraz wywołuje po raz kolejny okno
 
 def get_data (city: str, token: str) -> dict:
     '''Pobieranie danych ze strony'''

@@ -13,11 +13,11 @@ class ctkAppChoice:
 
         self.textbox = ctk.CTkTextbox(master=self.app, width=636, height=85, text_color="#99CCFF", font=('Helvetica',19)) #pole tekstowe
         self.textbox.pack(padx=20, pady=20) #położenie pola tekstowego
-        self.textbox.insert("0.0", "Co chcesz zrobić? Porównać poziom zanieczyszczenia dla największych miast w Polsce, czy wyświetlić dane dla jednego z tych miast? Wciśnij odpowiedni przycisk.") #tekst
+        self.textbox.insert("0.0", "Co chcesz zrobić? Porównać poziom zanieczyszczenia dla największych miast w wybranym kraju, czy wyświetlić dane dla jednego z tych miast? Wciśnij odpowiedni przycisk.") #tekst
         self.textbox.tag_config("center", justify="center") #ta linijka i jedna poniżej odpowiadają za wyrównanie tekstu do środka
         self.textbox.tag_add("center", "1.0", "end")
 
-        self.button1 = ctk.CTkButton(master=self.app, text="Porównanie miast w Polsce",font=('Helvetica',15), command=lambda:[self.on_closing(), self.show_comparing_window()]) #po wciśnięciu przycisku zadziałają dwie funckcje, zamkknięcie tego okna i otwarcie nowego (dlatego musi być lambda)
+        self.button1 = ctk.CTkButton(master=self.app, text="Porównanie miast",font=('Helvetica',15), command=lambda:[self.on_closing(), self.show_comparing_window()]) #po wciśnięciu przycisku zadziałają dwie funckcje, zamkknięcie tego okna i otwarcie nowego (dlatego musi być lambda)
         self.button1.place(relx=0.15, rely=0.7)
 
         self.button2 = ctk.CTkButton(master=self.app, text="Dane dla wybranego miasta",font=('Helvetica',15), command=lambda:[self.on_closing(), self.show_city_window()])
@@ -32,11 +32,11 @@ class ctkAppChoice:
         self.app.destroy() #zniszczenie okna
 
     def show_comparing_window(self) -> None:
-        '''Wyświetlenie okna, w którym można porównać różne miasta w Polsce'''
+        '''Wyświetlenie okna, w którym można porównać różne miasta w danym kraju'''
         CTK_Window = okno_porownanie.ctkAppCompare()
 
     def show_city_window(self) -> None:
-        '''Wyświetlenie okna, w którym można wyświetlić dane dla wybranego miasta w Polsce'''
+        '''Wyświetlenie okna, w którym można wyświetlić dane dla wybranego miasta w danym kraju'''
         CTk_Window = okno_miasto.ctkAppCity()
 
     def CenterWindowToDisplay(self, Screen: ctk.CTk, width: int, height: int, scale_factor: float=1.0) -> str:
