@@ -1,7 +1,3 @@
-#W tym pliku znajdują się wszystkie funkcje odpowiadające za wyświetlanie okienka za pomocą biblioteki customtkinter
-# CAŁY KOD TUTAJ JEST PRÓBNY, TO TRZEBA PRZEROBIĆ
-
-import analiza_danych_porownanie as ad
 import customtkinter as ctk 
 import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie
@@ -9,8 +5,11 @@ from typing import Callable
 import pandas as pd
 import tkinter.ttk as ttk #moduł biblioteki tkinter, który daje dostęp do widżetów (tu został wykorzystany do wyświetlenia tabeli oraz paska przewijania)
 
+import analiza_danych_porownanie as ad
+
 class ctkAppCompare:
-    def __init__(self):
+    def __init__(self, df):
+        self.df = df
         ctk.set_appearance_mode("dark") #ciemny tryb wyświetlanego okna
         self.app = ctk.CTk() 
         self.app.title("Jakość powietrza") #nazwa wyświetlanego okna
@@ -57,9 +56,9 @@ class ctkAppCompare:
         self.statistics_frame = ctk.CTkFrame(master=self.app, height=250, width=self.app.winfo_width()*0.175, fg_color="black") #pole, w którym będą wyświetlane podstawowe statystyki
         self.statistics_frame.place(relx=0.77, rely=0.6)
 
-        city_biggest_poll, biggest_poll = ad.show_city_with_the_biggest_pollution(ad.df)
-        city_smallest_poll, smallest_poll = ad.show_city_with_the_smallest_pollution(ad.df)
-        mean_poll, std_poll, var_poll = ad.statistics(ad.df)
+        city_biggest_poll, biggest_poll = ad.show_city_with_the_biggest_pollution(self.df)
+        city_smallest_poll, smallest_poll = ad.show_city_with_the_smallest_pollution(self.df)
+        mean_poll, std_poll, var_poll = ad.statistics(self.df)
 
         self.textbox_statistic = ctk.CTkTextbox(master=self.statistics_frame, height=250, width=self.app.winfo_width()*0.175, fg_color="black", text_color="#99CCFF", font=('Helvetica',12)) #pole tekstowe
         self.textbox_statistic.place(relx=0.5, rely=0.5, anchor="center")
@@ -70,7 +69,7 @@ class ctkAppCompare:
 
     def choose_plot(self, plot_func: Callable[[pd.DataFrame], matplotlib.figure.Figure]) -> None: #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame i zwraca wykres matplotlib
         '''Wywołanie odpowiedniej funkcji rysującej wykres, a następnie wywołanie funkcji, która go wyświetli'''
-        fig = plot_func(ad.df)
+        fig = plot_func(self.df)
         self.show_plot(fig)
 
     def show_plot(self, fig: matplotlib.figure.Figure) -> None: #funkcja przyjmuje wykres jako argument
@@ -82,17 +81,17 @@ class ctkAppCompare:
     def check_the_checkbox(self, check_var: ctk.StringVar, plot_func: Callable[[pd.DataFrame], matplotlib.figure.Figure]) -> None:
         '''Jeśli checkbox jest zaznaczony, to zostanie wywołana funkcja rysująca wykres. Jeśli checkbox zostanie odznaczony, to nic nie będzie się wyświetlać we frame'''
         if check_var.get() == "on":
-            self.show_plot(plot_func(ad.df))
+            self.show_plot(plot_func(self.df))
         else:
             for widget in self.frame.winfo_children(): #iterowanie po elementach, które wyświetlają się we frame i usuwanie ich
                 widget.destroy()
 
     def show_table(self) -> None:
         '''Wyświetlanie tabeli z danymi z pandas DataFrame'''
-        tree = ttk.Treeview(self.frame, columns=list(ad.df.columns), show="headings")
-        for col in ad.df.columns:
+        tree = ttk.Treeview(self.frame, columns=list(self.df.columns), show="headings")
+        for col in self.df.columns:
             tree.heading(col, text=col) #nazwy kolumn
-        for _, row in ad.df.iterrows(): #iterowanie po elementach dataframe'u
+        for _, row in self.df.iterrows(): #iterowanie po elementach dataframe'u
             tree.insert("", "end", values=list(row)) #dodawanie wartości do komórek
         scrollbar_x = ttk.Scrollbar(self.frame, orient="horizontal", command=tree.xview) #poziomy pasek przewijania
         tree.configure(xscrollcommand=scrollbar_x.set)

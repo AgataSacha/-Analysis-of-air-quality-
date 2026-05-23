@@ -3,10 +3,11 @@ import analiza_danych_miasto as ad
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie
 from typing import Callable
 import pandas as pd
-from tworzenie_csv import cities
+from start import starting_window
 
 class ctkAppCity:
-    def __init__(self):
+    def __init__(self, df, cities):
+        self.df = df
         ctk.set_appearance_mode("dark")
         self.app = ctk.CTk() 
         self.app.title("Jakość powietrza") #nazwa wyświetlanego okna
@@ -44,14 +45,14 @@ class ctkAppCity:
 
     def weather_data(self) -> None:
         '''Wyświetlenie wartości temperatury, wiatru, wilgotności i ciśnienia dla wybranego miasta'''
-        temp, wind, humidity, pressure = ad.weather_conditions(ad.df, self.city)
+        temp, wind, humidity, pressure = ad.weather_conditions(self.df, self.city)
         self.textbox_statistic = ctk.CTkTextbox(master=self.statistics_frame, height=250, width=self.app.winfo_width()*0.175, fg_color="black", text_color="#99CCFF", font=('Helvetica',12)) #pole tekstowe
         self.textbox_statistic.place(relx=0.5, rely=0.5, anchor="center")
         self.textbox_statistic.insert("0.0", f"Warunki pogodowe w mieście {self.city}: \n \nTemperatura: {temp}\u00B0C \n \nWiatr: {wind}m/s \n \nWilgotność powietrza: {humidity}% \n \nCiśnienie atmosferyczne: {pressure}hPa ")
 
     def choose_plot(self, plot_func: Callable[[pd.DataFrame, str], None]) -> None: #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame oraz str (czyli nazwę miasta)
         '''Wywołanie odpowiedniej funkcji rysującej wykres, a następnie wywołanie funkcji, która go wyświetli'''
-        fig = plot_func(ad.df, self.city)
+        fig = plot_func(self.df, self.city)
         if fig is None: #jeśli jest za mało danych, to funkcja pie_chart_of_air_composition_in_chosen_city zwraca None
             self.not_enough_data() #wówczas wyświetli się textbox informujący o za wiewystarczającej liczbie danych
         else:
@@ -71,5 +72,5 @@ class ctkAppCity:
         canvas.draw()
         canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
 
-if __name__ == "__main__":        
-    CTK_Window = ctkAppCity()
+if __name__ == "__main__":    
+    start_window = starting_window()

@@ -1,9 +1,15 @@
 import customtkinter as ctk #biblioteka oparta na bibliotece tkinter, dzięki której wyświetlane okno lepiej wygląda
+import pandas as pd
+
 import okno_porownanie
 import okno_miasto
+import start
+from tworzenie_csv import choose_country, download_country_data
 
 class ctkAppChoice:
-    def __init__(self):
+    def __init__(self, cities, df):
+        self.cities = cities
+        self.df = df
         ctk.set_appearance_mode("dark")
         self.app = ctk.CTk() 
         self.app.title("Jakość powietrza") #nazwa wyświetlanego okna
@@ -33,11 +39,11 @@ class ctkAppChoice:
 
     def show_comparing_window(self) -> None:
         '''Wyświetlenie okna, w którym można porównać różne miasta w danym kraju'''
-        CTK_Window = okno_porownanie.ctkAppCompare()
+        CTK_Window = okno_porownanie.ctkAppCompare(self.df)
 
     def show_city_window(self) -> None:
         '''Wyświetlenie okna, w którym można wyświetlić dane dla wybranego miasta w danym kraju'''
-        CTk_Window = okno_miasto.ctkAppCity()
+        CTk_Window = okno_miasto.ctkAppCity(self.df, self.cities)
 
     def CenterWindowToDisplay(self, Screen: ctk.CTk, width: int, height: int, scale_factor: float=1.0) -> str:
         '''Wyśrodkowanie na ekranie wyświetlanego okna'''
@@ -47,5 +53,10 @@ class ctkAppChoice:
         y = int(((screen_height/2) - (height/1.5)) * scale_factor)
         return f"{width}x{height}+{x}+{y}"
 
-if __name__ == "__main__":        
-    CTK_Window = ctkAppChoice()
+if __name__ == "__main__":     
+    start_window = start.starting_window()
+    cities = choose_country(start_window.country)    
+    download_country_data(cities)
+    df = pd.read_csv("jakosc_powietrza.csv") #zczytanie danych z pliku csv
+    df = df.dropna(axis=1, how='all') #usunięcie kolumn, w których nie ma żadnych danych
+    CTK_Window = ctkAppChoice(cities, df)

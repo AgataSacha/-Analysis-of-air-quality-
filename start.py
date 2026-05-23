@@ -30,8 +30,7 @@ class starting_window:
     def combobox_callback(self, chosen_country) -> None:
         '''Przypisanie zmiennej kraju wybranego z listy rozwijalnej'''
         self.country = chosen_country
-        self.choose_country()
-
+        
     def CenterWindowToDisplay(self, Screen: ctk.CTk, width: int, height: int, scale_factor: float=1.0) -> str:
         '''Wyśrodkowanie na ekranie wyświetlanego okna'''
         screen_width = Screen.winfo_screenwidth() #szerokość ekranu w pikselach
@@ -45,22 +44,7 @@ class starting_window:
         self.app.quit() #zakończenie pętli mainloop
         self.app.destroy() #zniszczenie okna
 
-    def choose_country(self):
-        '''Przypisanie odpowiedniej listy miast zgodnie z krajem, który wybrał użytkownik'''
-        if self.country == "Poland":
-            self.cities = ["Warszawa", "Kraków", "Wrocław", "Łódź", "Poznań", "Gdańsk", "Szczecin", "Lublin", "Bydgoszcz", "Białystok", "Katowice"]
-        elif self.country == "Germany":
-            self.cities = ["Berlin", "Hamburg", "München", "Köln", "Frankfurt", "Stuttgart", "Düsseldorf", "Leipzig", "Dortmund", "Essen"]
-        elif self.country == "France":
-            self.cities = ["Paris", "Marseille", "Lyon", "Tolouse", "Nice", "Nantes", "Montpellier", "Strasbourg", "Bordeaux", "Lille"]
-        elif self.country == "Spain":
-            self.cities = ["Madrid", "Barcelona", "Valencia", "Zaragoza", "Sevilla", "Málaga", "Murcia", "Alicante", "Bilbao"]
-        elif self.country == "Sweden":
-            self.cities = ["Stockholm", "Gothenburg", "Malmö", "Uppsala", "Helsingborg", "Linköping", "Örebro", "Västerås", "Jönköping", "Norrköping"]
-        elif self.country == "Finland":
-            self.cities = ["Helsinki", "Espoo", "Tampere", "Vantaa", "Oulu", "Turku", "Jyväskylä", "Kuopio", "Lahti", "Pori", "Joensuu", "Kouvola"]
-        elif self.country == "Norway":
-            self.cities = ["Oslo", "Bergen", "Trondheim", "Stavanger", "Drammen", "Sarpsborg", "Kristiansand", "Tønsberg", "Skien"]
+   
 
 
 def main():

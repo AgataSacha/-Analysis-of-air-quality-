@@ -3,11 +3,27 @@
 import requests #biblioteka do komunikacji ze stronami internetowymi
 import csv #biblioteka potrzebna do utworzenia pliku csv z pobranymi danymi
 import time 
-import start
 
-#cities: list[str] = ["Warszawa", "Kraków", "Wrocław", "Łódź", "Poznań", "Gdańsk", "Szczecin", "Lublin", "Bydgoszcz", "Białystok", "Katowice"] #lista największych miast w Polsce
-window = start.starting_window()
-cities = window.cities #w pliku okno_miasto robię "from tworzenie_csv import cities" i wcześniej działało, ale teraz wywołuje po raz kolejny okno
+#cities: list[str] = ["Warszawa", "Kraków", "Wrocław", "Łódź", "Poznań", "Gdańsk", "Szczecin", "Lublin", "Bydgoszcz", "Białystok", "Katowice"] #lista największych miast w Polsce 
+# #w pliku okno_miasto robię s"from tworzenie_csv import cities" i wcześniej działało, ale teraz wywołuje po raz kolejny okno
+
+def choose_country(country):
+    '''Przypisanie odpowiedniej listy miast zgodnie z krajem, który wybrał użytkownik'''
+    if country == "Poland":
+        cities = ["Warszawa", "Kraków", "Wrocław", "Łódź", "Poznań", "Gdańsk", "Szczecin", "Lublin", "Bydgoszcz", "Białystok", "Katowice"]
+    elif country == "Germany":
+        cities = ["Berlin", "Hamburg", "München", "Köln", "Frankfurt", "Stuttgart", "Düsseldorf", "Leipzig", "Dortmund", "Essen"]
+    elif country == "France":
+        cities = ["Paris", "Marseille", "Lyon", "Tolouse", "Nice", "Nantes", "Montpellier", "Strasbourg", "Bordeaux", "Lille"]
+    elif country == "Spain":
+        cities = ["Madrid", "Barcelona", "Valencia", "Zaragoza", "Sevilla", "Málaga", "Murcia", "Alicante", "Bilbao"]
+    elif country == "Sweden":
+        cities = ["Stockholm", "Gothenburg", "Malmö", "Uppsala", "Helsingborg", "Linköping", "Örebro", "Västerås", "Jönköping", "Norrköping"]
+    elif country == "Finland":
+        cities = ["Helsinki", "Espoo", "Tampere", "Vantaa", "Oulu", "Turku", "Jyväskylä", "Kuopio", "Lahti", "Pori", "Joensuu", "Kouvola"]
+    elif country == "Norway":
+        cities = ["Oslo", "Bergen", "Trondheim", "Stavanger", "Drammen", "Sarpsborg", "Kristiansand", "Tønsberg", "Skien"]
+    return cities
 
 def get_data (city: str, token: str) -> dict:
     '''Pobieranie danych ze strony'''
@@ -69,8 +85,8 @@ def get_csv(the_data: list[dict], file_name = "jakosc_powietrza.csv"):
 
     
     
-def main():
-
+def download_country_data(cities):
+    '''Pobieranie danych dla kolejnych miast w wybranym kraju'''
     #token znajduje się w osobnym pliku tekstowym, należy go zczytać
     f = open("moj_token.txt")
     token = f.read()
@@ -82,9 +98,6 @@ def main():
         if data:
             row = adjust_data(i, data)
             the_data.append(row)
-        time.sleep(0.5) #spowolnienie pętli, aby na pewno nie przeciążyć serwera
+        time.sleep(0.01) #spowolnienie pętli, aby na pewno nie przeciążyć serwera
     get_csv(the_data)
 
-
-if __name__ == "__main__":
-    main()
