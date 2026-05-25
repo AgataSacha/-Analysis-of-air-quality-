@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-countries = ["Poland", "Germany", "France", "Spain", "Sweden", "Finland", "Norway"]
+countries = ["Poland", "Germany", "France", "Spain", "Sweden", "Finland", "Norway", "Ukraine", "Italy", "Great Britain"]
 
 class starting_window:
     def __init__(self):

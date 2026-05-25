@@ -24,10 +24,10 @@ class ctkAppCity:
         combobox.set("Wybierz miasto") #ustawienie tekstu, który będzie się wyświetlał, zanim z listy rozwijalnej zostanie wybrane miasto
 
         self.statistics_frame = ctk.CTkFrame(master=self.app, height=250, width=self.app.winfo_width()*0.175, fg_color="black") #pole, w którym będą wyświetlane podstawowe statystyki
-        self.statistics_frame.place(relx=0.77, rely=0.6)
+        self.statistics_frame.place(relx=0.77, rely=0.5)
 
         self.button_air_composition = ctk.CTkButton(master=self.app, width=210, text="Wyświetl wykres kołowy przedstawiający skład powietrza", command=lambda: self.choose_plot(ad.pie_chart_of_air_composition_in_chosen_city))
-        self.button_air_composition.place(relx=0.79, rely=0.4)
+        self.button_air_composition.place(relx=0.79, rely=0.2)
         self.button_air_composition._text_label.configure(wraplength=210) #zawijanie tekstu na przycisku
 
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)

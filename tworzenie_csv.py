@@ -4,9 +4,6 @@ import requests #biblioteka do komunikacji ze stronami internetowymi
 import csv #biblioteka potrzebna do utworzenia pliku csv z pobranymi danymi
 import time 
 
-#cities: list[str] = ["Warszawa", "Kraków", "Wrocław", "Łódź", "Poznań", "Gdańsk", "Szczecin", "Lublin", "Bydgoszcz", "Białystok", "Katowice"] #lista największych miast w Polsce 
-# #w pliku okno_miasto robię s"from tworzenie_csv import cities" i wcześniej działało, ale teraz wywołuje po raz kolejny okno
-
 def choose_country(country):
     '''Przypisanie odpowiedniej listy miast zgodnie z krajem, który wybrał użytkownik'''
     if country == "Poland":
@@ -23,6 +20,12 @@ def choose_country(country):
         cities = ["Helsinki", "Espoo", "Tampere", "Vantaa", "Oulu", "Turku", "Jyväskylä", "Kuopio", "Lahti", "Pori", "Joensuu", "Kouvola"]
     elif country == "Norway":
         cities = ["Oslo", "Bergen", "Trondheim", "Stavanger", "Drammen", "Sarpsborg", "Kristiansand", "Tønsberg", "Skien"]
+    elif country == "Ukraine":
+        cities = ["Kyiv", "Kharkiv", "Odesa", "Dnipro", "Donetsk", "Lviv", "Zaporizhzhia", "Kryvyi Rih", "Mykolaiv", "Mariupol"]
+    elif country == "Italy":
+        cities = ["Roma", "Milano", "Napoli", "Torino", "Palermo", "Genova", "Bologna", "Firenze", "Bari", "Catania", "Verona"]
+    elif country == "Great Britain":
+        cities = ["Birmingham", "Leeds", "Glasgow", "Manchester", "Sheffield", "Bradford", "Edinburgh", "Liverpool", "Bristol", "Cardiff", "London"]
     return cities
 
 def get_data (city: str, token: str) -> dict:

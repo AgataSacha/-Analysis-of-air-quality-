@@ -1,8 +1,8 @@
 import customtkinter as ctk #biblioteka oparta na bibliotece tkinter, dzięki której wyświetlane okno lepiej wygląda
 import pandas as pd
 
-import okno_porownanie
-import okno_miasto
+from okno_porownanie import ctkAppCompare
+from okno_miasto import ctkAppCity
 import start
 from tworzenie_csv import choose_country, download_country_data
 
@@ -39,11 +39,11 @@ class ctkAppChoice:
 
     def show_comparing_window(self) -> None:
         '''Wyświetlenie okna, w którym można porównać różne miasta w danym kraju'''
-        CTK_Window = okno_porownanie.ctkAppCompare(self.df)
+        CTK_Window = ctkAppCompare(self.df, self.cities)
 
     def show_city_window(self) -> None:
         '''Wyświetlenie okna, w którym można wyświetlić dane dla wybranego miasta w danym kraju'''
-        CTk_Window = okno_miasto.ctkAppCity(self.df, self.cities)
+        CTk_Window = ctkAppCity(self.df, self.cities)
 
     def CenterWindowToDisplay(self, Screen: ctk.CTk, width: int, height: int, scale_factor: float=1.0) -> str:
         '''Wyśrodkowanie na ekranie wyświetlanego okna'''

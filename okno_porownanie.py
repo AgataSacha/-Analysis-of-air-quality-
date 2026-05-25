@@ -6,10 +6,12 @@ import pandas as pd
 import tkinter.ttk as ttk #moduł biblioteki tkinter, który daje dostęp do widżetów (tu został wykorzystany do wyświetlenia tabeli oraz paska przewijania)
 
 import analiza_danych_porownanie as ad
+from okno_miasto import ctkAppCity
 
 class ctkAppCompare:
-    def __init__(self, df):
+    def __init__(self, df, cities):
         self.df = df
+        self.cities = cities
         ctk.set_appearance_mode("dark") #ciemny tryb wyświetlanego okna
         self.app = ctk.CTk() 
         self.app.title("Jakość powietrza") #nazwa wyświetlanego okna
