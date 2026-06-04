@@ -1,15 +1,18 @@
 import customtkinter as ctk
-import analiza_danych_miasto as ad
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie
 from typing import Callable
 import pandas as pd
+
+import analiza_danych_miasto as ad
 from start import starting_window
 
 class ctkAppCity:
-    def __init__(self, df, cities):
+    def __init__(self, root, df, cities, callback):
         self.df = df
-        ctk.set_appearance_mode("dark")
-        self.app = ctk.CTk() 
+        self.callback = callback
+        self.canvas = None
+        self.is_closing = None
+        self.app = ctk.CTkToplevel(root)
         self.app.title("Jakość powietrza") #nazwa wyświetlanego okna
         self.app.geometry("1100x700") #wymiary wyświetlanego okna
         self.app.resizable(False, False) #blokazada możliwości zmiany rozmiaru okna
@@ -30,13 +33,11 @@ class ctkAppCity:
         self.button_air_composition.place(relx=0.79, rely=0.2)
         self.button_air_composition._text_label.configure(wraplength=210) #zawijanie tekstu na przycisku
 
-        self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
-        self.app.mainloop() 
+        self.return_button = ctk.CTkButton(master=self.app, width=20, text="Cofnij", command=lambda: self.on_closing(True))
+        self.return_button.place(relx=0.86, rely=0.9)
 
-    def on_closing(self) -> None:
-        '''Zakończenie pracy okna'''
-        self.app.quit() #zakończenie pętli mainloop
-        self.app.destroy() #zniszczenie okna
+        self.canvas = None
+        self.app.protocol("WM_DELETE_WINDOW", lambda:self.on_closing(False)) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
 
     def combobox_callback(self, chosen_city) -> None:
         '''Przypisanie zmiennej miasta wybranego z listy rozwijalnej'''
@@ -71,6 +72,19 @@ class ctkAppCity:
         canvas = FigureCanvasTkAgg(fig, master=self.frame)
         canvas.draw()
         canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
+
+    def on_closing(self, go_back: bool) -> None:
+        if self.is_closing:
+            return
+        self.is_closing = True
+        if self.canvas is not None:
+            try:
+                self.canvas.get_tk_widget().destroy()
+            except Exception:
+                pass
+            self.canvas = None
+        self.app.destroy()
+        self.callback(go_back)
 
 if __name__ == "__main__":    
     start_window = starting_window()

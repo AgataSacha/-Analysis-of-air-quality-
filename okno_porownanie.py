@@ -6,16 +6,18 @@ import pandas as pd
 import tkinter.ttk as ttk #moduł biblioteki tkinter, który daje dostęp do widżetów (tu został wykorzystany do wyświetlenia tabeli oraz paska przewijania)
 
 import analiza_danych_porownanie as ad
-from okno_miasto import ctkAppCity
 
 class ctkAppCompare:
-    def __init__(self, df, cities):
+    def __init__(self, root, df, cities, callback):
         self.df = df
         self.cities = cities
-        ctk.set_appearance_mode("dark") #ciemny tryb wyświetlanego okna
-        self.app = ctk.CTk() 
-        self.app.title("Jakość powietrza") #nazwa wyświetlanego okna
-        self.app.geometry("1100x700") #wymiary wyświetlanego okna
+        self.callback = callback
+        self.canvas = None
+        self.is_closing = False
+
+        self.app = ctk.CTkToplevel(root)  
+        self.app.title("Jakość powietrza")
+        self.app.geometry("1100x700")
         self.app.resizable(False, False)
         self.app.update()
 
@@ -55,19 +57,23 @@ class ctkAppCompare:
         self.checkbox_press = ctk.CTkCheckBox(master=self.app, width=10, height=10, text="Ciśnienie atmosferyczne", variable=self.check_var_press, onvalue="on", offvalue="off", command=lambda: self.check_the_checkbox(self.check_var_press, ad.barh_plot_press))
         self.checkbox_press.place(relx=0.79, rely=0.55)
 
-        self.statistics_frame = ctk.CTkFrame(master=self.app, height=250, width=self.app.winfo_width()*0.175, fg_color="black") #pole, w którym będą wyświetlane podstawowe statystyki
+        self.statistics_frame = ctk.CTkFrame(master=self.app, height=200, width=self.app.winfo_width()*0.175, fg_color="black") #pole, w którym będą wyświetlane podstawowe statystyki
         self.statistics_frame.place(relx=0.77, rely=0.6)
 
         city_biggest_poll, biggest_poll = ad.show_city_with_the_biggest_pollution(self.df)
         city_smallest_poll, smallest_poll = ad.show_city_with_the_smallest_pollution(self.df)
         mean_poll, std_poll, var_poll = ad.statistics(self.df)
 
-        self.textbox_statistic = ctk.CTkTextbox(master=self.statistics_frame, height=250, width=self.app.winfo_width()*0.175, fg_color="black", text_color="#99CCFF", font=('Helvetica',12)) #pole tekstowe
+        self.textbox_statistic = ctk.CTkTextbox(master=self.statistics_frame, height=200, width=self.app.winfo_width()*0.175, fg_color="black", text_color="#99CCFF", font=('Helvetica',12)) #pole tekstowe
         self.textbox_statistic.place(relx=0.5, rely=0.5, anchor="center")
         self.textbox_statistic.insert("0.0", f"Statystyki dotyczące AQI (Air Quality Index) \n \nNajwyższe zanieczyszczenie: {city_biggest_poll} \nPoziom zanieczyszczenia: {biggest_poll} \n \nNajniższe zanieczyszczenie: {city_smallest_poll} \nPoziom zanieczyszczenia: {smallest_poll} \n \nŚrednie zanieczyszczenie: {mean_poll}\n \nOdchylenie standardowe: {std_poll} \n \nWariancja: {var_poll}" )
 
-        self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
-        self.app.mainloop() 
+        self.return_button = ctk.CTkButton(master=self.app, width=20, text="Cofnij", command=lambda: self.on_closing(True))
+        self.return_button.place(relx=0.86, rely=0.95)
+
+        self.canvas = None
+        self.is_closing = False
+        self.app.protocol("WM_DELETE_WINDOW", lambda: self.on_closing(False)) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
 
     def choose_plot(self, plot_func: Callable[[pd.DataFrame], matplotlib.figure.Figure]) -> None: #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame i zwraca wykres matplotlib
         '''Wywołanie odpowiedniej funkcji rysującej wykres, a następnie wywołanie funkcji, która go wyświetli'''
@@ -76,12 +82,19 @@ class ctkAppCompare:
 
     def show_plot(self, fig: matplotlib.figure.Figure) -> None: #funkcja przyjmuje wykres jako argument
         '''Wyświetlanie w oknie wybranego wykresu'''
-        canvas = FigureCanvasTkAgg(fig, master=self.frame)
-        canvas.draw()
-        canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
+        if self.is_closing:
+            return
+        if self.canvas is not None:
+            self.canvas.get_tk_widget().destroy()
+            self.canvas = None
+        self.canvas = FigureCanvasTkAgg(fig, master=self.frame)
+        self.canvas.draw()
+        self.canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
 
     def check_the_checkbox(self, check_var: ctk.StringVar, plot_func: Callable[[pd.DataFrame], matplotlib.figure.Figure]) -> None:
         '''Jeśli checkbox jest zaznaczony, to zostanie wywołana funkcja rysująca wykres. Jeśli checkbox zostanie odznaczony, to nic nie będzie się wyświetlać we frame'''
+        if self.is_closing:  # <-- blokada
+            return
         if check_var.get() == "on":
             self.show_plot(plot_func(self.df))
         else:
@@ -102,10 +115,19 @@ class ctkAppCompare:
         self.frame.grid_rowconfigure(0, weight=1) #dzięki tej i następnej linii tkinter wie, że tabela ma zająć całego frame'a
         self.frame.grid_columnconfigure(0, weight=1)
 
-    def on_closing(self) -> None:
-        '''Zakończenie pracy okna'''
-        self.app.quit() #zakończenie pętli mainloop
-        self.app.destroy() #zniszczenie okna
+    def on_closing(self, go_back: bool) -> None:
+        if self.is_closing:
+            return
+        self.is_closing = True
+        if self.canvas is not None:
+            try:
+                self.canvas.get_tk_widget().destroy()
+            except Exception:
+                pass
+            self.canvas = None
+        self.app.destroy()
+        self.callback(go_back)
+
 
 if __name__ == "__main__":        
     CTK_Window = ctkAppCompare()

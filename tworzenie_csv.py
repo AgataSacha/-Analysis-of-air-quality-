@@ -87,7 +87,6 @@ def get_csv(the_data: list[dict], file_name = "jakosc_powietrza.csv"):
         writer.writerows(the_data)
 
     
-    
 def download_country_data(cities):
     '''Pobieranie danych dla kolejnych miast w wybranym kraju'''
     #token znajduje się w osobnym pliku tekstowym, należy go zczytać

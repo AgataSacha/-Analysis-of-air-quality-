@@ -1,18 +1,9 @@
 #W tym pliku znajdują się wszystkie funkcje dotyczące analizy danych, tj. rysowanie wykresów, wyświetlanie tabel itd.
 #probny komenatrz
 import pandas as pd
-from tabulate import tabulate
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-
-df = pd.read_csv("jakosc_powietrza.csv") #zczytanie danych z pliku csv
-df = df.dropna(axis=1, how='all') #usunięcie kolumn, w których nie ma żadnych danych
-
-def show_table_in_console(df: pd.DataFrame):
-    '''Ta funkcja wyświetla pobrane dane w konsoli w formie tabeli'''
-    print(tabulate(df))
-
 
 def show_city_with_the_biggest_pollution(df: pd.DataFrame) -> tuple[str, float]: #funkcja zwraca krotkę z nazwą miasta i wartością zanieczysczenia
     '''Ta funkcja zwraca miasto o największym zanieczyszczeniu powietrza'''
@@ -113,10 +104,4 @@ def barh_plot_press(df: pd.DataFrame) -> matplotlib.figure.Figure:
     plt.ylabel("Miasto")
     return fig
 
-def main():
-    barh_plot_press(df)
-
-
-if __name__ == "__main__":
-    main()
 

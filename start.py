@@ -22,7 +22,7 @@ class starting_window:
         combobox.set("Wybierz kraj")
 
         self.acceptance = ctk.CTkButton(master=self.app, width=10, height=10, text="OK", command=self.on_closing)
-        self.acceptance.place(relx=0.5, rely=0.8)
+        self.acceptance.place(relx=0.45, rely=0.8)
 
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) 
         self.app.mainloop()

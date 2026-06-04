@@ -4,7 +4,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 
-
 def pie_chart_of_air_composition_in_chosen_city(df: pd.DataFrame, city: str) -> matplotlib.figure.Figure:
     '''Ta funkcja rysuje wykres kołowy przedstawiający skład powietrza dla wybranego miasta'''
     chosen_city = df[df["Miasto"]==city] #wydzielenie tylko tego wiersza, który dotyczy wybranego miasta
@@ -34,15 +33,3 @@ def weather_conditions(df: pd.DataFrame, city: str) -> tuple[float]:
     return (temp, wind, humidity, pressure)
     
 
-    
-
-
-
-
-def main():
-    #pie_chart_of_air_composition_in_chosen_city(df, "Warszawa")
-    weather_conditions(df, "Warszawa")
-
-
-if __name__ == "__main__":
-    main()
