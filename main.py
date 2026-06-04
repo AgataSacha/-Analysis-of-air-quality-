@@ -11,7 +11,6 @@ start_window = start.starting_window() #wyświetlenie pierwszego okna, w którym
 cities = choose_country(start_window.country) #utworzenie listy miast w wybranym kraju
 download_country_data(cities) #pobranie danych poprzez API, zapisanie ich w pliku csv
 df = pd.read_csv("jakosc_powietrza.csv") #odczytanie pliku csv
-df = df.dropna(axis=1, how='all') #usinięcie pustych wartości
 
 ctk.set_appearance_mode("dark") #ustawienie ciemnego trybu dla wyświetlanego okna
 root = ctk.CTk() #stworzenie głównego okna 
@@ -28,21 +27,21 @@ def on_choice(next_window):
     elif next_window == "city":
         ctkAppCity(root, df, cities, on_city_close)
     else:
-        root.quit()
+        root.destroy()
 
 def on_compare_close(go_back):
     '''Jeśli użytkownik wcisnął przycisk "Cofnij", cofnięcie się do głównego okna, jeśli nie, zamknięcie wszystkich okien'''
     if go_back:
         show_choice()
     else:
-        root.quit()
+        root.destroy()
 
 def on_city_close(go_back):
     '''Jeśli użytkownik wcisnął przycisk "Cofnij", cofnięcie się do głównego okna, jeśli nie, zamknięcie wszystkich okien'''
     if go_back:
         show_choice()
     else:
-        root.quit()
+        root.destroy()
 
 show_choice()
 root.mainloop()

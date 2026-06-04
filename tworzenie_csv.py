@@ -95,11 +95,15 @@ def download_country_data(cities):
     f.close()
 
     the_data = []
+    print("Trwa pobieranie danych")
+    start_time = time.time()
     for i in cities:
+        print("...")
         data = get_data(i, token)
         if data:
             row = adjust_data(i, data)
             the_data.append(row)
         time.sleep(0.01) #spowolnienie pętli, aby na pewno nie przeciążyć serwera
+    print(f"Pobieranie zakończone, trwało {time.time()-start_time} sekund.")
     get_csv(the_data)
 

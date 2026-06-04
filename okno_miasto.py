@@ -2,6 +2,7 @@ import customtkinter as ctk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie
 from typing import Callable
 import pandas as pd
+import matplotlib
 
 import analiza_danych_miasto as ad
 from start import starting_window
@@ -67,16 +68,16 @@ class ctkAppCity:
         self.textbox.tag_config("center", justify="center") #ta linijka i jedna poniżej odpowiadają za wyrównanie tekstu do środka
         self.textbox.tag_add("center", "1.0", "end")
 
-    def show_plot(self, fig) -> None:
+    def show_plot(self, fig: matplotlib.figure.Figure) -> None:
         '''Wyświetlanie w oknie wybranego wykresu'''
         if self.is_closing: #zabezpieczenie, że jeśli użytkownik kliknie przycisk rysowania wykresu w trakcie zamykania okna, to nic się nie wydarzy
             return
         if self.canvas is not None: #sprawdzenie, czy jakiś wykres nie jest już wyświetlony, jesli jest, to stary widget jest niszczony
             self.canvas.get_tk_widget().destroy()
             self.canvas = None
-        canvas = FigureCanvasTkAgg(fig, master=self.frame)
-        canvas.draw()
-        canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
+        self.canvas = FigureCanvasTkAgg(fig, master=self.frame)
+        self.canvas.draw()
+        self.canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
 
     def on_closing(self, go_back: bool) -> None:
         '''Zamykanie okna'''
