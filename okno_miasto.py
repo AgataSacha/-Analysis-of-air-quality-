@@ -7,22 +7,23 @@ import analiza_danych_miasto as ad
 from start import starting_window
 
 class ctkAppCity:
-    def __init__(self, root, df, cities, callback):
+    def __init__(self, root: ctk.CTk, df: pd.DataFrame, cities: list[str], callback: Callable):
         self.df = df
-        self.callback = callback
-        self.canvas = None
-        self.is_closing = None
-        self.app = ctk.CTkToplevel(root)
+        self.cities = cities
+        self.callback = callback #funkcja, która zamyka okno (i ewentualnie cofa do poprzedniego okna)
+        self.canvas = None #domyślne ustawienie, że nie ma żadnego wykresu
+        self.is_closing = False #domyślne ustawienie zmiennej, która informuje o tym, czy okno właśnie się zamyka czy nie
+        self.app = ctk.CTkToplevel(root) #stworzenie dodatkowego okna (dla głównego okna root)
         self.app.title("Jakość powietrza") #nazwa wyświetlanego okna
         self.app.geometry("1100x700") #wymiary wyświetlanego okna
-        self.app.resizable(False, False) #blokazada możliwości zmiany rozmiaru okna
+        self.app.resizable(False, False) #blokada możliwości zmiany rozmiaru okna
         self.app.update()
 
         self.frame = ctk.CTkFrame(master=self.app, height=680, width=self.app.winfo_width()*0.6, fg_color="black") #pole, w którym będą się wyświetlać wykresy
         self.frame.grid(row=0, column=0, padx=10, pady=10)
         self.frame.grid_propagate(False) #frame nie będzie dopasowywał swojego rozmiaru do zawartości
 
-        combobox = ctk.CTkComboBox(master=self.app, values=cities, command=self.combobox_callback) #lista rozwijalna z nazwami miast
+        combobox = ctk.CTkComboBox(master=self.app, values=self.cities, command=self.combobox_callback) #lista rozwijalna z nazwami miast
         combobox.place(relx=0.8, rely=0.1) #położenie listy rozwijalnej
         combobox.set("Wybierz miasto") #ustawienie tekstu, który będzie się wyświetlał, zanim z listy rozwijalnej zostanie wybrane miasto
 
@@ -36,7 +37,6 @@ class ctkAppCity:
         self.return_button = ctk.CTkButton(master=self.app, width=20, text="Cofnij", command=lambda: self.on_closing(True))
         self.return_button.place(relx=0.86, rely=0.9)
 
-        self.canvas = None
         self.app.protocol("WM_DELETE_WINDOW", lambda:self.on_closing(False)) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
 
     def combobox_callback(self, chosen_city) -> None:
@@ -69,11 +69,17 @@ class ctkAppCity:
 
     def show_plot(self, fig) -> None:
         '''Wyświetlanie w oknie wybranego wykresu'''
+        if self.is_closing: #zabezpieczenie, że jeśli użytkownik kliknie przycisk rysowania wykresu w trakcie zamykania okna, to nic się nie wydarzy
+            return
+        if self.canvas is not None: #sprawdzenie, czy jakiś wykres nie jest już wyświetlony, jesli jest, to stary widget jest niszczony
+            self.canvas.get_tk_widget().destroy()
+            self.canvas = None
         canvas = FigureCanvasTkAgg(fig, master=self.frame)
         canvas.draw()
         canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
 
     def on_closing(self, go_back: bool) -> None:
+        '''Zamykanie okna'''
         if self.is_closing:
             return
         self.is_closing = True

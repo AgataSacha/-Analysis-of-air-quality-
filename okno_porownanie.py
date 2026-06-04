@@ -8,14 +8,13 @@ import tkinter.ttk as ttk #moduł biblioteki tkinter, który daje dostęp do wid
 import analiza_danych_porownanie as ad
 
 class ctkAppCompare:
-    def __init__(self, root, df, cities, callback):
+    def __init__(self, root: ctk.CTk, df: pd.DataFrame, cities: list[str], callback: Callable):
         self.df = df
         self.cities = cities
-        self.callback = callback
-        self.canvas = None
-        self.is_closing = False
-
-        self.app = ctk.CTkToplevel(root)  
+        self.callback = callback #funkcja, która zamyka okno (i ewentualnie cofa do poprzedniego okna)
+        self.canvas = None #domyślne ustawienie, że nie ma żadnego wykresu
+        self.is_closing = False #domyślne ustawienie zmiennej, która informuje o tym, czy okno właśnie się zamyka czy nie
+        self.app = ctk.CTkToplevel(root) #stworzenie dodatkowego okna (dla głównego okna root)
         self.app.title("Jakość powietrza")
         self.app.geometry("1100x700")
         self.app.resizable(False, False)
@@ -71,8 +70,6 @@ class ctkAppCompare:
         self.return_button = ctk.CTkButton(master=self.app, width=20, text="Cofnij", command=lambda: self.on_closing(True))
         self.return_button.place(relx=0.86, rely=0.95)
 
-        self.canvas = None
-        self.is_closing = False
         self.app.protocol("WM_DELETE_WINDOW", lambda: self.on_closing(False)) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
 
     def choose_plot(self, plot_func: Callable[[pd.DataFrame], matplotlib.figure.Figure]) -> None: #ta funkcja przyjmuje za argument funkcję, która z kolei przyjmuje za argument pandas data Frame i zwraca wykres matplotlib
@@ -82,9 +79,9 @@ class ctkAppCompare:
 
     def show_plot(self, fig: matplotlib.figure.Figure) -> None: #funkcja przyjmuje wykres jako argument
         '''Wyświetlanie w oknie wybranego wykresu'''
-        if self.is_closing:
+        if self.is_closing: #zabezpieczenie, że jeśli użytkownik kliknie przycisk rysowania wykresu w trakcie zamykania okna, to nic się nie wydarzy
             return
-        if self.canvas is not None:
+        if self.canvas is not None: #sprawdzenie, czy jakiś wykres nie jest już wyświetlony, jesli jest, to stary widget jest niszczony
             self.canvas.get_tk_widget().destroy()
             self.canvas = None
         self.canvas = FigureCanvasTkAgg(fig, master=self.frame)
@@ -93,7 +90,7 @@ class ctkAppCompare:
 
     def check_the_checkbox(self, check_var: ctk.StringVar, plot_func: Callable[[pd.DataFrame], matplotlib.figure.Figure]) -> None:
         '''Jeśli checkbox jest zaznaczony, to zostanie wywołana funkcja rysująca wykres. Jeśli checkbox zostanie odznaczony, to nic nie będzie się wyświetlać we frame'''
-        if self.is_closing:  # <-- blokada
+        if self.is_closing:  #zabezpieczenie, że jeśli użytkownik zaznaczy checkboxa w trakcie wyłączania okna, to nic się nie wydarzy
             return
         if check_var.get() == "on":
             self.show_plot(plot_func(self.df))
@@ -116,17 +113,18 @@ class ctkAppCompare:
         self.frame.grid_columnconfigure(0, weight=1)
 
     def on_closing(self, go_back: bool) -> None:
-        if self.is_closing:
+        '''Zamykanie okna'''
+        if self.is_closing: #zabezpieczenie, że jeśli użytkownik dwukrotnie kliknie przycisk wyłączenia, to okno i tak wyłączy się poprawnie
             return
-        self.is_closing = True
-        if self.canvas is not None:
+        self.is_closing = True 
+        if self.canvas is not None: #jeżeli jest jakiś wykres, to zostanie zniszczony
             try:
                 self.canvas.get_tk_widget().destroy()
             except Exception:
                 pass
             self.canvas = None
-        self.app.destroy()
-        self.callback(go_back)
+        self.app.destroy() #zniszczenie okna
+        self.callback(go_back) #jeśli użytkownik kliknął "Cofnij", to wyświetli się okno wyboru
 
 
 if __name__ == "__main__":        

@@ -11,7 +11,7 @@ def choose_country(country):
     elif country == "Germany":
         cities = ["Berlin", "Hamburg", "München", "Köln", "Frankfurt", "Stuttgart", "Düsseldorf", "Leipzig", "Dortmund", "Essen"]
     elif country == "France":
-        cities = ["Paris", "Marseille", "Lyon", "Tolouse", "Nice", "Nantes", "Montpellier", "Strasbourg", "Bordeaux", "Lille"]
+        cities = ["Paris", "Marseille", "Lyon", "Nice", "Nantes", "Montpellier", "Strasbourg", "Bordeaux", "Lille"]
     elif country == "Spain":
         cities = ["Madrid", "Barcelona", "Valencia", "Zaragoza", "Sevilla", "Málaga", "Murcia", "Alicante", "Bilbao"]
     elif country == "Sweden":
