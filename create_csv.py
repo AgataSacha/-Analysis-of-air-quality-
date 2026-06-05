@@ -2,7 +2,7 @@
 
 import requests #biblioteka do komunikacji ze stronami internetowymi
 import csv #biblioteka potrzebna do utworzenia pliku csv z pobranymi danymi
-import time 
+import time #biblioteka zapewniająca funkcje obliczające czas i opóźniające działanie programu
 
 def choose_country(country):
     '''Przypisanie odpowiedniej listy miast zgodnie z krajem, który wybrał użytkownik'''
@@ -21,7 +21,7 @@ def choose_country(country):
     elif country == "Norway":
         cities = ["Oslo", "Bergen", "Trondheim", "Stavanger", "Drammen", "Sarpsborg", "Kristiansand", "Tønsberg", "Skien"]
     elif country == "Ukraine":
-        cities = ["Kyiv", "Kharkiv", "Odesa", "Dnipro", "Donetsk", "Lviv", "Zaporizhzhia", "Kryvyi Rih", "Mykolaiv", "Mariupol"]
+        cities = ["Kyiv", "Odesa", "Dnipro", "Lviv", "Zaporizhzhia", "Kryvyi Rih", "Mariupol"]
     elif country == "Italy":
         cities = ["Roma", "Milano", "Napoli", "Torino", "Palermo", "Genova", "Bologna", "Firenze", "Bari", "Catania", "Verona"]
     elif country == "Great Britain":
@@ -39,6 +39,7 @@ def get_data (city: str, token: str) -> dict:
         
 
 def adjust_data(city: str, data: dict) -> dict:
+    '''Przystosowanie danych'''
     dt = data["data"] #przypisanie, żeby nie powtarzać ciągle długiego zapisu
     d = data["data"].get("iaqi") #tak jak powyżej
     #Nie każda stacja zbiera wszystkie dane, dlatego zastosowano poniżej {}, gdyby dany klucz nie występował
@@ -81,10 +82,10 @@ def get_csv(the_data: list[dict], file_name = "jakosc_powietrza.csv"):
         "Wiatr"
     ]
 
-    with open(file_name, mode="w", newline="", encoding="utf-8") as csvfile:
+    with open(file_name, mode="w", newline="", encoding="utf-8") as csvfile: #tworzenie pliku csv
         writer = csv.DictWriter(csvfile, fieldnames=headers)
-        writer.writeheader()
-        writer.writerows(the_data)
+        writer.writeheader() #nazwy kolumn
+        writer.writerows(the_data) #zawartości kolummn
 
     
 def download_country_data(cities):
@@ -96,14 +97,15 @@ def download_country_data(cities):
 
     the_data = []
     print("Trwa pobieranie danych")
-    start_time = time.time()
-    for i in cities:
+    start_time = time.time() #zczytanie godziny, o której rozpoczęło się pobieranie
+    for city in cities:
         print("...")
-        data = get_data(i, token)
+        data = get_data(city, token) #pobieranie danych dla każdego miasta po kolei
         if data:
-            row = adjust_data(i, data)
-            the_data.append(row)
+            row = adjust_data(city, data) #przystosowanie danych dla każdego miasta po kolei
+            the_data.append(row) #dodanie danych do listy
         time.sleep(0.01) #spowolnienie pętli, aby na pewno nie przeciążyć serwera
-    print(f"Pobieranie zakończone, trwało {time.time()-start_time} sekund.")
-    get_csv(the_data)
+    download_time = time.time()-start_time #obliczenie, jak długo trwało pobieranie danych
+    print(f"Pobieranie zakończone, trwało {download_time} sekund.")
+    get_csv(the_data) #utworzenie pliku csv zawierającego pobrane dane
 

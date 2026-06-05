@@ -4,8 +4,8 @@ from typing import Callable
 import pandas as pd
 import matplotlib
 
-import analiza_danych_miasto as ad
-from start import starting_window
+import data_analysis_chosen_city as ad
+from window_first import starting_window
 
 class ctkAppCity:
     def __init__(self, root: ctk.CTk, df: pd.DataFrame, cities: list[str], callback: Callable):

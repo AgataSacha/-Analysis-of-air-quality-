@@ -5,7 +5,7 @@ from typing import Callable
 import pandas as pd
 import tkinter.ttk as ttk #moduł biblioteki tkinter, który daje dostęp do widżetów (tu został wykorzystany do wyświetlenia tabeli oraz paska przewijania)
 
-import analiza_danych_porownanie as ad
+import data_analysis_comparing_cities as ad
 
 class ctkAppCompare:
     def __init__(self, root: ctk.CTk, df: pd.DataFrame, cities: list[str], callback: Callable):

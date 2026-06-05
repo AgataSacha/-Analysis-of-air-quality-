@@ -20,10 +20,12 @@ class ctkAppChoice:
 
         self.window.protocol("WM_DELETE_WINDOW", lambda: self._close(None))
 
+
     def _close(self, next_window):
-        '''Zamknięcie okna i, jeśli użyttkownik wybrał kolejne okno, otwarcie nowego okna'''
-        self.window.destroy()
+        '''Zamknięcie okna i, jeśli użytkownik wybrał kolejne okno, otwarcie nowego okna'''
         self.callback(next_window)
+        self.window.destroy()
+        
 
     def _center(self, window, width, height):
         '''Wyświetlanie okna idealnie na środku ekranu'''

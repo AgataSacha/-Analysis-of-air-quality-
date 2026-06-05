@@ -1,15 +1,15 @@
 import pandas as pd
 import customtkinter as ctk
 
-import start
-from tworzenie_csv import choose_country, download_country_data
-from okno_wybor import ctkAppChoice
-from okno_porownanie import ctkAppCompare
-from okno_miasto import ctkAppCity
+from window_first import starting_window
+from create_csv import choose_country, download_country_data
+from window_choosing import ctkAppChoice
+from window_comparing_cities import ctkAppCompare
+from window_chosen_city import ctkAppCity
 
-start_window = start.starting_window() #wyświetlenie pierwszego okna, w którym użytkownik wybiera z listy rozwijalnej kraj, który go interesuje
+start_window = starting_window() #wyświetlenie pierwszego okna, w którym użytkownik wybiera z listy rozwijalnej kraj, który go interesuje
 cities = choose_country(start_window.country) #utworzenie listy miast w wybranym kraju
-download_country_data(cities) #pobranie danych poprzez API, zapisanie ich w pliku csv
+#download_country_data(cities) #pobranie danych poprzez API, zapisanie ich w pliku csv
 df = pd.read_csv("jakosc_powietrza.csv") #odczytanie pliku csv
 
 ctk.set_appearance_mode("dark") #ustawienie ciemnego trybu dla wyświetlanego okna
@@ -22,7 +22,7 @@ def show_choice():
 
 def on_choice(next_window):
     '''Wyświetlenie okna wybranego przez użytkownika'''
-    if next_window == "compare":
+    if next_window == "compare": 
         ctkAppCompare(root, df, cities, on_compare_close) 
     elif next_window == "city":
         ctkAppCity(root, df, cities, on_city_close)
