@@ -25,7 +25,7 @@ class ctkAppCity:
         self.frame.grid_propagate(False) #frame nie będzie dopasowywał swojego rozmiaru do zawartości
 
         combobox = ctk.CTkComboBox(master=self.app, values=self.cities, command=self.combobox_callback) #lista rozwijalna z nazwami miast
-        combobox.place(relx=0.8, rely=0.1) #położenie listy rozwijalnej
+        combobox.place(relx=0.82, rely=0.1) #położenie listy rozwijalnej
         combobox.set("Wybierz miasto") #ustawienie tekstu, który będzie się wyświetlał, zanim z listy rozwijalnej zostanie wybrane miasto
 
         self.statistics_frame = ctk.CTkFrame(master=self.app, height=250, width=self.app.winfo_width()*0.175, fg_color="black") #pole, w którym będą wyświetlane podstawowe statystyki

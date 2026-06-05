@@ -19,7 +19,7 @@ class starting_window:
 
         combobox = ctk.CTkComboBox(master=self.app, values=countries, command=self.combobox_callback) #lista rozwijalna z nazwami miast
         combobox.place(relx=0.3, rely=0.45) #położenie listy rozwijalnej
-        combobox.set("Wybierz kraj")
+        combobox.set("Wybierz kraj") #komunikat domyślnie wyświetlany na liście rozwijalnej
 
         self.acceptance = ctk.CTkButton(master=self.app, width=10, height=10, text="OK", command=self.on_closing)
         self.acceptance.place(relx=0.45, rely=0.8)

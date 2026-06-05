@@ -6,13 +6,13 @@ class ctkAppChoice:
         self.callback = callback 
         self.window = ctk.CTkToplevel(root)  #utworzenie dodatkowego okna
         self.window.title("Jakość powietrza")
-        self.window.geometry(self._center(self.window, 700, 200))
+        self.window.geometry(self._center(self.window, 700, 200)) #wycentrowanie okna na ekranie
         self.window.resizable(False, False) #zablokowanie możliwości zmiany rozmiaru okna
 
-        self.textbox = ctk.CTkTextbox(master=self.window, width=636, height=85, text_color="#99CCFF", font=('Helvetica', 19))
-        self.textbox.pack(padx=20, pady=20)
+        self.textbox = ctk.CTkTextbox(master=self.window, width=636, height=85, text_color="#99CCFF", font=('Helvetica', 19)) #utworzenie pola tekstowego
+        self.textbox.pack(padx=20, pady=20) #umiejscowienie pola tekstowego
         self.textbox.insert("0.0", "Co chcesz zrobić? Porównać poziom zanieczyszczenia dla największych miast w wybranym kraju, czy wyświetlić dane dla jednego z tych miast? Wciśnij odpowiedni przycisk.")
-        self.textbox.tag_config("center", justify="center")
+        self.textbox.tag_config("center", justify="center") #wyrównanie tekstu do środka
         self.textbox.tag_add("center", "1.0", "end")
 
         ctk.CTkButton(master=self.window, text="Porównanie miast", font=('Helvetica', 15), command=lambda: self._close("compare")).place(relx=0.15, rely=0.7)
@@ -25,8 +25,6 @@ class ctkAppChoice:
         '''Zamknięcie okna i, jeśli użytkownik wybrał kolejne okno, otwarcie nowego okna'''
         self.window.destroy()
         self.window.after(10, lambda: self.callback(next_window))
-        
-        
 
     def _center(self, window: ctk.CTkToplevel, width: int, height: int):
         '''Wyświetlanie okna idealnie na środku ekranu'''
