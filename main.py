@@ -16,11 +16,11 @@ ctk.set_appearance_mode("dark") #ustawienie ciemnego trybu dla wyświetlanego ok
 root = ctk.CTk() #stworzenie głównego okna 
 root.withdraw()  #ukrycie głównego okna 
 
-def show_choice():
+def show_choice() -> None:
     '''Wyświetlenie głównego okna, w którym użytkownik wybiera, co chce dalej wyświetlić'''
     ctkAppChoice(root, on_choice) 
 
-def on_choice(next_window):
+def on_choice(next_window: str) -> None:
     '''Wyświetlenie okna wybranego przez użytkownika'''
     if next_window == "compare": 
         ctkAppCompare(root, df, cities, on_compare_close) 
@@ -29,14 +29,14 @@ def on_choice(next_window):
     else:
         root.destroy()
 
-def on_compare_close(go_back):
+def on_compare_close(go_back: bool) -> None:
     '''Jeśli użytkownik wcisnął przycisk "Cofnij", cofnięcie się do głównego okna, jeśli nie, zamknięcie wszystkich okien'''
     if go_back:
         show_choice()
     else:
         root.destroy()
 
-def on_city_close(go_back):
+def on_city_close(go_back: bool) -> None:
     '''Jeśli użytkownik wcisnął przycisk "Cofnij", cofnięcie się do głównego okna, jeśli nie, zamknięcie wszystkich okien'''
     if go_back:
         show_choice()

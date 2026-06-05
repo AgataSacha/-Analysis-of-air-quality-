@@ -27,7 +27,7 @@ class starting_window:
         self.app.protocol("WM_DELETE_WINDOW", self.on_closing) 
         self.app.mainloop()
 
-    def combobox_callback(self, chosen_country) -> None:
+    def combobox_callback(self, chosen_country: str) -> None:
         '''Przypisanie zmiennej kraju wybranego z listy rozwijalnej'''
         self.country = chosen_country
         

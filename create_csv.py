@@ -4,7 +4,7 @@ import requests #biblioteka do komunikacji ze stronami internetowymi
 import csv #biblioteka potrzebna do utworzenia pliku csv z pobranymi danymi
 import time #biblioteka zapewniająca funkcje obliczające czas i opóźniające działanie programu
 
-def choose_country(country):
+def choose_country(country: str) -> list[str]:
     '''Przypisanie odpowiedniej listy miast zgodnie z krajem, który wybrał użytkownik'''
     if country == "Poland":
         cities = ["Warszawa", "Kraków", "Wrocław", "Łódź", "Poznań", "Gdańsk", "Szczecin", "Lublin", "Bydgoszcz", "Białystok", "Katowice"]
@@ -25,7 +25,7 @@ def choose_country(country):
     elif country == "Italy":
         cities = ["Roma", "Milano", "Napoli", "Torino", "Palermo", "Genova", "Bologna", "Firenze", "Bari", "Catania", "Verona"]
     elif country == "Great Britain":
-        cities = ["Birmingham", "Leeds", "Glasgow", "Manchester", "Sheffield", "Bradford", "Edinburgh", "Liverpool", "Bristol", "Cardiff", "London"]
+        cities = ["Birmingham", "Leeds", "Glasgow", "Manchester", "Sheffield", "Edinburgh", "Liverpool", "Bristol", "Cardiff", "London"]
     return cities
 
 def get_data (city: str, token: str) -> dict:
@@ -62,7 +62,7 @@ def adjust_data(city: str, data: dict) -> dict:
             "Wiatr": d.get("w", {}).get("v", "")
         }
     
-def get_csv(the_data: list[dict], file_name = "jakosc_powietrza.csv"):
+def get_csv(the_data: list[dict], file_name: str = "jakosc_powietrza.csv") -> None:
     '''Uzyskanie pliku csv z danymi'''
     headers: list[str] = [
         "Data i godzina pomiaru",
@@ -88,7 +88,7 @@ def get_csv(the_data: list[dict], file_name = "jakosc_powietrza.csv"):
         writer.writerows(the_data) #zawartości kolummn
 
     
-def download_country_data(cities):
+def download_country_data(cities: list[str]) -> None:
     '''Pobieranie danych dla kolejnych miast w wybranym kraju'''
     #token znajduje się w osobnym pliku tekstowym, należy go zczytać
     f = open("moj_token.txt")

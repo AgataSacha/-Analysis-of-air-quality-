@@ -40,7 +40,7 @@ class ctkAppCity:
 
         self.app.protocol("WM_DELETE_WINDOW", lambda:self.on_closing(False)) #po ręcznym zamknięciu okna zadziała funkcja on_closing (bez tego program będzie cały czas działał, nawet po zamknięciu okna)
 
-    def combobox_callback(self, chosen_city) -> None:
+    def combobox_callback(self, chosen_city: str) -> None:
         '''Przypisanie zmiennej miasta wybranego z listy rozwijalnej'''
         self.city = chosen_city
         self.weather_data()
