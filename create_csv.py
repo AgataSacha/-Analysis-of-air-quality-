@@ -15,7 +15,7 @@ def choose_country(country: str) -> list[str]:
     elif country == "Spain":
         cities = ["Madrid", "Barcelona", "Valencia", "Zaragoza", "Sevilla", "Málaga", "Murcia", "Alicante", "Bilbao"]
     elif country == "Sweden":
-        cities = ["Stockholm", "Gothenburg", "Malmö", "Uppsala", "Helsingborg", "Linköping", "Örebro", "Västerås", "Jönköping", "Norrköping"]
+        cities = ["Stockholm", "Gothenburg", "Malmö", "Uppsala", "Helsingborg", "Linköping", "Västerås", "Norrköping"]
     elif country == "Finland":
         cities = ["Helsinki", "Espoo", "Tampere", "Vantaa", "Oulu", "Turku", "Jyväskylä", "Kuopio", "Lahti", "Pori", "Joensuu", "Kouvola"]
     elif country == "Norway":
@@ -23,7 +23,7 @@ def choose_country(country: str) -> list[str]:
     elif country == "Ukraine":
         cities = ["Kyiv", "Odesa", "Dnipro", "Lviv", "Zaporizhzhia", "Kryvyi Rih", "Mariupol"]
     elif country == "Italy":
-        cities = ["Roma", "Milano", "Napoli", "Torino", "Palermo", "Genova", "Bologna", "Firenze", "Bari", "Catania", "Verona"]
+        cities = ["Roma", "Milano", "Napoli", "Torino", "Bologna", "Firenze", "Bari", "Verona"]
     elif country == "Great Britain":
         cities = ["Birmingham", "Leeds", "Glasgow", "Manchester", "Sheffield", "Edinburgh", "Liverpool", "Bristol", "Cardiff", "London"]
     return cities

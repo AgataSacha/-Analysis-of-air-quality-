@@ -9,7 +9,7 @@ from window_chosen_city import ctkAppCity
 
 start_window = starting_window() #wyświetlenie pierwszego okna, w którym użytkownik wybiera z listy rozwijalnej kraj, który go interesuje
 cities = choose_country(start_window.country) #utworzenie listy miast w wybranym kraju
-#download_country_data(cities) #pobranie danych poprzez API, zapisanie ich w pliku csv
+download_country_data(cities) #pobranie danych poprzez API, zapisanie ich w pliku csv
 df = pd.read_csv("jakosc_powietrza.csv") #odczytanie pliku csv
 
 ctk.set_appearance_mode("dark") #ustawienie ciemnego trybu dla wyświetlanego okna
