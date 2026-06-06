@@ -3,6 +3,7 @@ from typing import Callable
 
 class ctkAppChoice:
     def __init__(self, root: ctk.CTk, callback: Callable):
+        self.root = root
         self.callback = callback 
         self.window = ctk.CTkToplevel(root)  #utworzenie dodatkowego okna
         self.window.title("Jakość powietrza")
@@ -24,7 +25,7 @@ class ctkAppChoice:
     def _close(self, next_window: str|None) -> None:
         '''Zamknięcie okna i, jeśli użytkownik wybrał kolejne okno, otwarcie nowego okna'''
         self.window.destroy()
-        self.window.after(10, lambda: self.callback(next_window))
+        self.callback(next_window)
 
     def _center(self, window: ctk.CTkToplevel, width: int, height: int):
         '''Wyświetlanie okna idealnie na środku ekranu'''

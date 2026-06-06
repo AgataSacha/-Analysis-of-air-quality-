@@ -123,6 +123,8 @@ class ctkAppCompare:
             except Exception:
                 pass
             self.canvas = None
+        if not go_back: #jeśli użytkownik kliknął X, to program zakończy swoje działanie
+            self.app.quit()
         self.app.destroy() #zniszczenie okna
         self.callback(go_back) #jeśli użytkownik kliknął "Cofnij", to wyświetli się okno wyboru
 

@@ -90,6 +90,8 @@ class ctkAppCity:
             except Exception:
                 pass
             self.canvas = None
+        if not go_back: #jeśli użytkownik kliknął X, to program zakończy swoje działanie
+            self.app.quit()
         self.app.destroy()
         self.callback(go_back)
 
