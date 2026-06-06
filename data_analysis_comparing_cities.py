@@ -1,11 +1,9 @@
-#W tym pliku znajdują się wszystkie funkcje dotyczące analizy danych, tj. rysowanie wykresów, wyświetlanie tabel itd.
-#probny komenatrz
 import pandas as pd
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 
-def show_city_with_the_biggest_pollution(df: pd.DataFrame) -> tuple[str, float]: #funkcja zwraca krotkę z nazwą miasta i wartością zanieczysczenia
+def show_city_with_the_biggest_pollution(df: pd.DataFrame) -> tuple[str, float]: #funkcja zwraca krotkę z nazwą miasta i wartością zanieczyszczenia
     '''Ta funkcja zwraca miasto o największym zanieczyszczeniu powietrza'''
     max_pollution = df["AQI"].max() #najwyższy poziom zanieczyszczenia
     max_pollution_index = df["AQI"].idxmax() #indeks wiersza, w którym znajduje się najwyższe zanieczyszczenie
@@ -15,8 +13,8 @@ def show_city_with_the_biggest_pollution(df: pd.DataFrame) -> tuple[str, float]:
 def show_city_with_the_smallest_pollution(df: pd.DataFrame) -> tuple[str, float]:
     '''Ta funkcja zwraca miasto o najmniejszym zanieczyszczeniu powietrza'''
     min_pollution = df["AQI"].min() #najniższy poziom zanieczyszczenia
-    min_pollution_index = df["AQI"].idxmin() 
-    city_min_pollution = df.iloc[min_pollution_index, 1] 
+    min_pollution_index = df["AQI"].idxmin() #indeks najniższego poziomu zanieczyszczenia
+    city_min_pollution = df.iloc[min_pollution_index, 1] #nazwa miasta o najnizszym zanieczyszczeniu
     return (city_min_pollution, min_pollution)
 
 def statistics(df: pd.DataFrame) -> tuple[float]:
@@ -25,14 +23,14 @@ def statistics(df: pd.DataFrame) -> tuple[float]:
     mean_poll = aqi.mean()
     std_poll = aqi.std()
     var_poll = aqi.var()
-    mean_poll = round(mean_poll, 4)
+    mean_poll = round(mean_poll, 4) #zaokrąglenie wartości do czterech miejsc po przecinku
     std_poll = round(std_poll, 4)
     var_poll = round(var_poll, 4)
     return (mean_poll, std_poll, var_poll)
 
 def bar_plot_of_aqi_in_cities(df: pd.DataFrame) -> matplotlib.figure.Figure:
     '''Ta funkcja wyświetla wykres kolumnowy pokazujący ogólny poziom zanieczyszczenia w każdym mieście'''
-    city = df["Miasto"].tolist()
+    city = df["Miasto"].tolist() #przekształcenie kolumny z nazwami miast w listę
     aqi = df["AQI"].tolist()
     fig, ax = plt.subplots()
     plt.bar(city, aqi)

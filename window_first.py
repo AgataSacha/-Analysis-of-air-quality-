@@ -4,11 +4,11 @@ countries = ["Poland", "Germany", "France", "Spain", "Sweden", "Finland", "Norwa
 
 class starting_window:
     def __init__(self):
-        ctk.set_appearance_mode("dark")
+        ctk.set_appearance_mode("dark") #ciemny tryb
         self.app = ctk.CTk() 
         self.app.title("Jakość powietrza") #nazwa wyświetlanego okna
-        self.app.geometry(self.CenterWindowToDisplay(self.app, 300, 120, self.app._get_window_scaling())) #wymiary i położenie wyświetlanego okna
-        self.app.resizable(False, False)
+        self.app.geometry(self.CenterWindowToDisplay(self.app, 300, 120, self.app._get_window_scaling())) #wymiary i położenie wyświetlanego okna (wycenstrowanie go na ekranie)
+        self.app.resizable(False, False) #brak możliwości zmiany rozmiaru okna przez użytkownika
         self.app.update()
 
         self.textbox = ctk.CTkTextbox(master=self.app, width=270, height=80, text_color="#99CCFF", font=('Helvetica',15)) #pole tekstowe
@@ -21,10 +21,10 @@ class starting_window:
         combobox.place(relx=0.3, rely=0.45) #położenie listy rozwijalnej
         combobox.set("Wybierz kraj") #komunikat domyślnie wyświetlany na liście rozwijalnej
 
-        self.acceptance = ctk.CTkButton(master=self.app, width=10, height=10, text="OK", command=self.on_closing)
-        self.acceptance.place(relx=0.45, rely=0.8)
+        self.acceptance = ctk.CTkButton(master=self.app, width=10, height=10, text="OK", command=self.on_closing) #utworzenie przycisku
+        self.acceptance.place(relx=0.45, rely=0.8) #położenie przycisku
 
-        self.app.protocol("WM_DELETE_WINDOW", self.on_closing) 
+        self.app.protocol("WM_DELETE_WINDOW", self.on_closing) #WM_DELETE_WINDOW to sygnał wysyłany do aplikacji, gdy użytkownik kliknie X. Wywoła on funkcję on_closing 
         self.app.mainloop()
 
     def combobox_callback(self, chosen_country: str) -> None:
@@ -44,11 +44,3 @@ class starting_window:
         self.app.quit() #zakończenie pętli mainloop
         self.app.destroy() #zniszczenie okna
 
-   
-
-
-def main():
-    start_window = starting_window()
-
-if __name__ == "__main__":
-    main()
