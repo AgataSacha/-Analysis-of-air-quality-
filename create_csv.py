@@ -94,7 +94,7 @@ def download_country_data(cities: list[str]) -> None:
     f = open("moj_token.txt")
     token = f.read()
     f.close()
-
+    
     the_data = []
     print("Trwa pobieranie danych")
     start_time = time.time() #zczytanie godziny, o której rozpoczęło się pobieranie
