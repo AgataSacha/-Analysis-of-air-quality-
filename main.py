@@ -1,6 +1,5 @@
 #1.Poprawić dopasowanie okna do różnych ekranów
 #2.Poprawić checkboxy
-#3.Wykres kołowy ma wyświetlać się od razu po wybraniu miasta z listy
 #4.Okno ładowania (gdy dane się poierają)
 
 import pandas as pd

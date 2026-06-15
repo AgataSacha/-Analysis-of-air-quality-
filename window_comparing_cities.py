@@ -89,11 +89,15 @@ class ctkAppCompare:
         self.canvas.get_tk_widget().place(relx=0, rely=0, relwidth=1.0, relheight=1.0) #przy wyświetlaniu wykres wypełni cały frame
 
     def check_the_checkbox(self, check_var: ctk.StringVar, plot_func: Callable[[pd.DataFrame], matplotlib.figure.Figure]) -> None:
-        '''Jeśli checkbox jest zaznaczony, to zostanie wywołana funkcja rysująca wykres. Jeśli checkbox zostanie odznaczony, to nic nie będzie się wyświetlać we frame'''
+        '''Jeśli checkbox jest zaznaczony, to wszystkie inne zostaną odznaczone, a następnie zostanie wywołana funkcja rysująca wykres. Jeśli checkbox zostanie odznaczony, to nic nie będzie się wyświetlać we frame'''
         if self.is_closing:  #zabezpieczenie, że jeśli użytkownik zaznaczy checkboxa w trakcie wyłączania okna, to nic się nie wydarzy
             return
+        all_check_boxes = [self.check_var_temp, self.check_var_hum, self.check_var_wind, self.check_var_press] #lista wszystkich checkboxów
+        all_check_boxes.remove(check_var) #usunięcie z listy tego checkboxa, który został zaznaczony
+        for var in all_check_boxes:
+            var.set("off") #odznaczenie wszystkich pozostałych checkboxów
         if check_var.get() == "on":
-            self.show_plot(plot_func(self.df))
+            self.show_plot(plot_func(self.df)) #dla zaznaczonego checkboxa sotanie wyświetlony odpowiedni wykres
         else:
             for widget in self.frame.winfo_children(): #iterowanie po elementach, które wyświetlają się we frame i usuwanie ich
                 widget.destroy()
