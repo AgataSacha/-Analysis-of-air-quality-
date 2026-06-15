@@ -3,6 +3,7 @@
 import requests #biblioteka do komunikacji ze stronami internetowymi
 import csv #biblioteka potrzebna do utworzenia pliku csv z pobranymi danymi
 import time #biblioteka zapewniająca funkcje obliczające czas i opóźniające działanie programu
+import tkinter as tk
 
 def choose_country(country: str) -> list[str]:
     '''Przypisanie odpowiedniej listy miast zgodnie z krajem, który wybrał użytkownik'''
@@ -94,17 +95,37 @@ def download_country_data(cities: list[str]) -> None:
     f = open("moj_token.txt")
     token = f.read()
     f.close()
-    
+
+    waiting_window = tk.Tk() #utworzenie okna czekania
+    waiting_window.title("Pobieranie danych")
+    waiting_window.configure(bg="#070743") #kolor tła okna
+    window_width = 300
+    window_height = 100
+    screen_width = waiting_window.winfo_screenwidth()
+    screen_height = waiting_window.winfo_screenheight()
+    x = (screen_width // 2) - (window_width // 2)
+    y = (screen_height // 2) - (window_height // 2)
+    waiting_window.geometry(f"{window_width}x{window_height}+{x}+{y}") #wyśrodkowanie okna na ekranie
+    label = tk.Label(waiting_window, text="Trwa pobieranie danych...", fg="#E6EFF0")
+    label.pack(padx=20, pady=20)
+    label.configure(bg="#070743")
+    waiting_window.update()
+
     the_data = []
     print("Trwa pobieranie danych")
     start_time = time.time() #zczytanie godziny, o której rozpoczęło się pobieranie
+    
     for city in cities:
+        label.config(text=f"Pobieranie danych dla miasta: {city}")  
+        waiting_window.update()
         print("...")
         data = get_data(city, token) #pobieranie danych dla każdego miasta po kolei
         if data:
             row = adjust_data(city, data) #przystosowanie danych dla każdego miasta po kolei
             the_data.append(row) #dodanie danych do listy
         time.sleep(0.01) #spowolnienie pętli, aby na pewno nie przeciążyć serwera
+
+    waiting_window.destroy() #zamknięcie okna czekania
     download_time = time.time()-start_time #obliczenie, jak długo trwało pobieranie danych
     print(f"Pobieranie zakończone, trwało {download_time} sekund.")
     get_csv(the_data) #utworzenie pliku csv zawierającego pobrane dane
