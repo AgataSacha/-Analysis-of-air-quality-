@@ -1,3 +1,5 @@
+#W tym pliku znajdują się analizy dla jednego miasta.
+
 import pandas as pd
 import numpy as np
 import matplotlib

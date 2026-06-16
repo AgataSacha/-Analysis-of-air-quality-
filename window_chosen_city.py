@@ -1,3 +1,5 @@
+#W tym oknie tworzone jest okno, w którym użytkownik wybiera z listy rozwijalnej miasto i dla tego miasta są wyświetlane statystyki oraz wykres
+
 import customtkinter as ctk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie
 from typing import Callable

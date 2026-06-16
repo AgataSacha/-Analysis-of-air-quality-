@@ -1,3 +1,5 @@
+#W tym pliku tworzone jest okno, gdzie są porównywane miasta w wybranym wcześniej kraju.
+
 import customtkinter as ctk 
 import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg #bibloteka, dzięki której można wyświetlać wykresy w oknie

@@ -99,8 +99,8 @@ def download_country_data(cities: list[str]) -> None:
     waiting_window = tk.Tk() #utworzenie okna czekania
     waiting_window.title("Pobieranie danych")
     waiting_window.configure(bg="#070743") #kolor tła okna
-    window_width = 300
-    window_height = 100
+    window_width = 320
+    window_height = 80
     screen_width = waiting_window.winfo_screenwidth()
     screen_height = waiting_window.winfo_screenheight()
     x = (screen_width // 2) - (window_width // 2)

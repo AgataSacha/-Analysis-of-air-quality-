@@ -1,6 +1,3 @@
-#1.Poprawić dopasowanie okna do różnych ekranów
-#4.Okno ładowania (gdy dane się poierają)
-
 import pandas as pd
 import customtkinter as ctk #biblioteka interfejsu użytkownika  oparta na Tkinter
 

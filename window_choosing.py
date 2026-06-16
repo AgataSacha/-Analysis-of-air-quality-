@@ -1,3 +1,5 @@
+#W tym pliku tworzone jest okno wyboru, wyświetlane po pobraniu danych, w którym użytkownik wybiera, co chce zrobić dalej.
+
 import customtkinter as ctk
 from typing import Callable
 

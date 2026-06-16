@@ -1,3 +1,5 @@
+#W tym pliku znajdują się analizy porównujące miasta w wybranym kraju.
+
 import pandas as pd
 import numpy as np
 import matplotlib

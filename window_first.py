@@ -1,3 +1,5 @@
+#W tym pliku tworzone jest okno, w którym użytkownik wybiera kraj. Jest to pierwsze okno wyświetlane po uruchomieniu programu.
+
 import customtkinter as ctk
 
 countries = ["Poland", "Germany", "France", "Spain", "Sweden", "Finland", "Norway", "Ukraine", "Italy", "Great Britain"]
