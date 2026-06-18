@@ -21,7 +21,7 @@ def pie_chart_of_air_composition_in_chosen_city(df: pd.DataFrame, city: str) -> 
     #jeśli lista zawiera jakieś wartości, to wyświetli się wykres kołowy
     fig, ax = plt.subplots()
     plt.pie(list_of_air_data, labels=names_to_use, autopct='%1.1f%%') #autopct wyświetla stosunek procentowy danego składnika
-    plt.title(f"Skład powietrza dla miasta {city}")
+    plt.title(f"Udział gazów zanieczyszczających powietrze dla miasta {city}")
     return fig
 
 def weather_conditions(df: pd.DataFrame, city: str) -> tuple[float]:

@@ -97,7 +97,7 @@ def download_country_data(cities: list[str]) -> None:
     f.close()
 
     waiting_window = tk.Tk() #utworzenie okna czekania
-    waiting_window.title("Pobieranie danych")
+    waiting_window.title("Pobieranie")
     waiting_window.configure(bg="#070743") #kolor tła okna
     window_width = 320
     window_height = 80
