@@ -1,11 +1,11 @@
 import pandas as pd
 import customtkinter as ctk #biblioteka interfejsu użytkownika  oparta na Tkinter
 
-from window_first import starting_window
-from create_csv import choose_country, download_country_data
-from window_choosing import ctkAppChoice
-from window_comparing_cities import ctkAppCompare
-from window_chosen_city import ctkAppCity
+from gui.window_first import starting_window
+from data_download_and_analysis.create_csv import choose_country, download_country_data
+from gui.window_choosing import ctkAppChoice
+from gui.window_comparing_cities import ctkAppCompare
+from gui.window_chosen_city import ctkAppCity
 
 start_window = starting_window() #wyświetlenie pierwszego okna, w którym użytkownik wybiera z listy rozwijalnej kraj, który go interesuje
 cities = choose_country(start_window.country) #utworzenie listy miast w wybranym kraju
