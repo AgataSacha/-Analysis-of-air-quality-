@@ -49,7 +49,7 @@ requests==2.31.0+
 ## ⚙️ Installation
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/air-quality-analyzer.git
+git clone https://github.com/AgataSacha/-Analysis-of-air-quality-.git
 cd air-quality-analyzer
 ```
 ### 2. Create a Virtual Environment
