@@ -6,7 +6,7 @@ A Python desktop app for fetching, analyzing, and visualizing air quality and we
 ## **📌 Features**
 
 ### **🔹 Choosing country**
-<img width="356" height="177" alt="image" src="https://github.com/user-attachments/assets/ec92621e-d24e-4952-b951-bb5b759e0791" />
+<img width="351" height="172" alt="image" src="https://github.com/user-attachments/assets/ec92621e-d24e-4952-b951-bb5b759e0791" />
 
 ### **🔹 Data Fetching**
 - Automatically assigns major cities for the selected country.
@@ -14,7 +14,7 @@ A Python desktop app for fetching, analyzing, and visualizing air quality and we
 - Saves data to `jakosc_powietrza.csv`.
 
 ### **🔹 Analysis & Visualization**
-<img width="872" height="281" alt="image" src="https://github.com/user-attachments/assets/1100b8fd-42a0-4bcd-98d7-6f899c3bcbef" />
+<img width="861" height="270" alt="image" src="https://github.com/user-attachments/assets/1100b8fd-42a0-4bcd-98d7-6f899c3bcbef" />
 
 #### **City Comparison Mode**
 - AQI bar chart for comparing pollution levels.
