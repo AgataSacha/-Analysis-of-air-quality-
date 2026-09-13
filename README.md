@@ -50,7 +50,7 @@ requests==2.31.0+
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/AgataSacha/-Analysis-of-air-quality-.git
-cd air-quality-analyzer
+cd -Analysis-of-air-quality-
 ```
 ### 2. Create a Virtual Environment
 ```bash
@@ -86,7 +86,7 @@ python main.py
 
 ## 🗂️ Project structure
 ```text
-ir-quality-analyzer/
+-Analysis-of-air-quality-/
 ├── main.py
 ├── gui/
 │   ├── window_first.py
